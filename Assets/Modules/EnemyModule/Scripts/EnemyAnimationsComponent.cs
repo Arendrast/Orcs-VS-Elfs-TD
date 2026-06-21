@@ -27,14 +27,14 @@ namespace Modules.EnemyModule.Scripts
         {
             if (_targetPointMovementComponent != null)
             {
-                _disposables.Add(new EnemyMovementAnimationsController(_targetPointMovementComponent.Model, _animator));
+                _disposables.Add(new EnemyMovementAnimationsController(_targetPointMovementComponent.Model, _animator, _healthComponent.Model));
             }
 
             if (_pathMovementComponent != null)
             {
                 _disposables.Add(
                     new EnemyMovementAnimationsController(
-                        _pathMovementComponent.Controller.PointMovementController.Model, _animator));
+                        _pathMovementComponent.Controller.PointMovementController.Model, _animator, _healthComponent.Model));
             }
 
             if (_attackComponent != null)

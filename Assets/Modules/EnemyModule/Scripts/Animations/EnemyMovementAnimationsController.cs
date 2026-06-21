@@ -1,4 +1,5 @@
 ﻿using System;
+using Modules.EntityModule.Scripts.Health;
 using Modules.EntityModule.Scripts.Movement.TargetPoint;
 using UnityEngine;
 
@@ -8,17 +9,19 @@ namespace Modules.EnemyModule.Scripts.Animations
     {
         private readonly TargetPointMovementModel _targetPointMovementModel;
         private readonly Animator _animator;
+        private readonly HealthModel _healthModel;
 
         private static readonly int MovementSpeedMultiplierHash = Animator.StringToHash("MovementSpeedMultiplier");
         
         private const float LocalMovementMultiplier = 0.2f;
 
-        public EnemyMovementAnimationsController(TargetPointMovementModel targetPointMovementModel, Animator animator)
+        public EnemyMovementAnimationsController(TargetPointMovementModel targetPointMovementModel, Animator animator, HealthModel healthModel)
         {
             _targetPointMovementModel = targetPointMovementModel;
             _animator = animator;
+            _healthModel = healthModel;
             targetPointMovementModel.StartedMovement += PlayMoveAnimation;
-            targetPointMovementModel.StoppedMovement += PlayIdleAnimation;
+            targetPointMovementModel.StoppedMovement += TryPlayIdleAnimation;
 
             if (targetPointMovementModel.DoesMove)
             {
@@ -28,12 +31,17 @@ namespace Modules.EnemyModule.Scripts.Animations
 
         public void Dispose()
         {
-            _targetPointMovementModel.StartedMovement -= PlayIdleAnimation;
-            _targetPointMovementModel.StoppedMovement -= PlayIdleAnimation;
+            _targetPointMovementModel.StartedMovement -= PlayMoveAnimation;
+            _targetPointMovementModel.StoppedMovement -= TryPlayIdleAnimation;
         }
 
-        private void PlayIdleAnimation()
+        private void TryPlayIdleAnimation()
         {
+            if (_healthModel.IsDied)
+            {
+                return;
+            }
+            
             _animator.CrossFade("Idle", 0.1f, -1, 0f);
         }
 
