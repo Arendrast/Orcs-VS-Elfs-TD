@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Modules.EnemyModule.Scripts
 {
-    public class EnemyViewComponent : MonoBehaviour
+    public class EnemyAnimationsComponent : MonoBehaviour
     {
         [SerializeField] private HealthComponent _healthComponent;
         [SerializeField] private PathMovementComponent _pathMovementComponent;

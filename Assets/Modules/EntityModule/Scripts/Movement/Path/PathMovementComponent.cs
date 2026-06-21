@@ -10,7 +10,7 @@ namespace Modules.EntityModule.Scripts.Movement.Path
         
         public PathMovementModel Model { get; private set; }
         public PathMovementController Controller { get; private set; }
-        [field: SerializeField] public PathConfig Config { get; private set; }
+        [field: SerializeField] public PathComponent Component { get; private set; }
         [field: SerializeField] public PathMovementConfig MovementConfig { get; private set; }
 
         private Initializer _initializer;
@@ -22,7 +22,7 @@ namespace Modules.EntityModule.Scripts.Movement.Path
 
         private void TryInitialize()
         {
-            Model = new PathMovementModel(Config);
+            Model = new PathMovementModel(Component);
             Controller = new PathMovementController(Model, transform, MovementConfig);
         }
     }

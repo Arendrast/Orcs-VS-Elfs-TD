@@ -1,4 +1,5 @@
 using System;
+using Modules.EntityModule.Scripts.Damageable;
 using Modules.EntityModule.Scripts.Health;
 using UnityEngine;
 
@@ -6,9 +7,10 @@ namespace Modules.PlayerUnitModule.Scripts.Archer
 {
     public class PlayerArcherLogicComponent : MonoBehaviour
     {
-        [SerializeField] private HealthComponent _healthComponent;
-        [SerializeField] private PlayerArcherAttackComponent _attackComponent;
-        
+        [field: SerializeField] public HealthComponent HealthComponent { get; private set; }
+        [field: SerializeField] public DamageableComponent DamageableComponent { get; private set; }
+        [field: SerializeField] public PlayerArcherAttackComponent AttackComponent { get; private set; }
+
         private void Start()
         {
             Subscribe();
@@ -21,27 +23,27 @@ namespace Modules.PlayerUnitModule.Scripts.Archer
         
         private void Update()
         {
-            _attackComponent.AttackController.Update(Time.deltaTime, out var waitForCooldown);
+            AttackComponent.AttackController.Update(Time.deltaTime, out var waitForCooldown);
             
-            if (_attackComponent.AttackModel.TargetData.HasValue)
+            if (AttackComponent.AttackModel.TargetData.HasValue)
             {
-                transform.LookAt(_attackComponent.AttackModel.TargetData.Value.Transform);
+                transform.LookAt(AttackComponent.AttackModel.TargetData.Value.Transform);
             }
         }
         
         private void Subscribe()
         {
-            _healthComponent.Model.Died += OnDie;
+            HealthComponent.Model.Died += OnDie;
         }
 
         private void Unsubscribe()
         {
-            _healthComponent.Model.Died -= OnDie;
+            HealthComponent.Model.Died -= OnDie;
         }
         
         private void OnDie()
         {
-            _attackComponent.AttackController.OnEndAttacks();
+            AttackComponent.AttackController.OnEndAttacks();
         }
     }
 }

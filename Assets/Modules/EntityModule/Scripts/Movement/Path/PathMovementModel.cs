@@ -11,24 +11,24 @@ namespace Modules.EntityModule.Scripts.Movement.Path
 
         private int _targetPointIndex;
 
-        private readonly PathConfig _pathConfig;
+        private readonly PathComponent _pathComponent;
 
-        public PathMovementModel(PathConfig pathConfig)
+        public PathMovementModel(PathComponent pathComponent)
         {
-            _pathConfig = pathConfig;
+            _pathComponent = pathComponent;
             TargetPointMovementModel = new TargetPointMovementModel();
         }
 
         public void TryIncreaseTargetPointIndex()
         {
-            if (_targetPointIndex + 1 > _pathConfig.MovementPositionsTransforms.Length)
+            if (_targetPointIndex + 1 > _pathComponent.MovementPositionsTransforms.Length)
             {
                 return;
             }
             
             _targetPointIndex++;
 
-            if (_targetPointIndex == _pathConfig.MovementPositionsTransforms.Length)
+            if (_targetPointIndex == _pathComponent.MovementPositionsTransforms.Length)
             {
                 EndedAllPath?.Invoke();
             }
@@ -36,17 +36,17 @@ namespace Modules.EntityModule.Scripts.Movement.Path
 
         public Vector3 GetTargetPointPosition()
         {
-            if (_pathConfig.MovementPositionsTransforms.Length == 0)
+            if (_pathComponent.MovementPositionsTransforms.Length == 0)
                 return Vector3.zero;
 
             return DoesEndPath()
-                ? _pathConfig.MovementPositionsTransforms[^1].position
-                : _pathConfig.MovementPositionsTransforms[_targetPointIndex].position;
+                ? _pathComponent.MovementPositionsTransforms[^1].position
+                : _pathComponent.MovementPositionsTransforms[_targetPointIndex].position;
         }
 
         public bool DoesEndPath()
         {
-            return _targetPointIndex >= _pathConfig.MovementPositionsTransforms.Length;
+            return _targetPointIndex >= _pathComponent.MovementPositionsTransforms.Length;
         }
     }
 }

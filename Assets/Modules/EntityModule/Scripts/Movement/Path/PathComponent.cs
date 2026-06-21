@@ -2,7 +2,7 @@
 
 namespace Modules.EntityModule.Scripts.Movement.Path
 {
-    public class PathConfig : MonoBehaviour
+    public class PathComponent : MonoBehaviour
     {
         [field: SerializeField] public Transform[] MovementPositionsTransforms { get; private set; }
     }

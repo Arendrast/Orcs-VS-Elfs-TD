@@ -1,6 +1,9 @@
 using System;
 using Modules.CoreModule.Scripts.GameStates;
+using Modules.EnemyModule.Scripts.Orc;
 using Modules.EntityModule.Scripts.Damageable;
+using Modules.PlayerUnitModule.Scripts.Archer;
+using Modules.PlayerUnitModule.Scripts.Merge;
 using UnityEngine;
 
 namespace Modules.CoreModule.Scripts
@@ -8,6 +11,7 @@ namespace Modules.CoreModule.Scripts
     public class Bootstrapper : MonoBehaviour
     {
         [SerializeField] private GameplayComponents _gameplayComponents;
+        [SerializeField] private Camera _camera;
 
         private void Awake()
         {
@@ -19,9 +23,17 @@ namespace Modules.CoreModule.Scripts
             var playerDamageablesRepository = new DamageablesRepository();
             var enemyDamageablesRepository = new DamageablesRepository();
 
-            var gamePlayState = new GameplayGameState(playerDamageablesRepository, 
-                enemyDamageablesRepository,
-                _gameplayComponents);
+            var archerArrowFactory = new PlayerArcherArrowFactory();
+            var playerArcherFactory = new PlayerArcherFactory(archerArrowFactory, playerDamageablesRepository,
+                enemyDamageablesRepository);
+
+            var orcEnemyFactory = new OrcEnemyFactory(playerDamageablesRepository, enemyDamageablesRepository,
+                _gameplayComponents, _camera);
+
+            var mergeUnitFactory = new MergeUnitFactory(_gameplayComponents.MergeGridComponent.GridConfig);
+
+            var gamePlayState = new GameplayGameState(_gameplayComponents, playerArcherFactory, orcEnemyFactory,
+                mergeUnitFactory, _camera);
 
             new BootstrapGameState(gamePlayState).Enter();
         }

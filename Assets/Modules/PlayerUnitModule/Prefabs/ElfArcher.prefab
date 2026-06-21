@@ -786,21 +786,29 @@ PrefabInstance:
       propertyPath: _attacksConfig.<AttacksConfigs>k__BackingField.Array.data[0].<FullAttackTime>k__BackingField
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 576259523813306608, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
+      propertyPath: _archerPrefab
+      value: 
+      objectReference: {fileID: 7491926482643700458, guid: 1aa1efbd4b3d35b4884d4ae2873596a7, type: 3}
+    - target: {fileID: 576259523813306608, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
+      propertyPath: _spawnDelayAfterStartAttack
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 793945568493296787, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: m_Name
       value: ElfArcher
       objectReference: {fileID: 0}
     - target: {fileID: 2600468154165148636, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2600468154165148636, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2600468154165148636, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2600468154165148636, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: m_LocalPosition.x
@@ -853,6 +861,14 @@ PrefabInstance:
     - target: {fileID: 4445881445823237414, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: _attackSpeedAnimationMultiplier
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7090993458996149981, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.238
+      objectReference: {fileID: 0}
+    - target: {fileID: 7090993458996149981, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.662
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

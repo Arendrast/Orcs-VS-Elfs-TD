@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2600468154165148636}
+  - component: {fileID: 2344044083695896743}
   - component: {fileID: 6400272104484973495}
   - component: {fileID: 7963447424705424234}
   - component: {fileID: 183837079733404563}
@@ -36,6 +37,20 @@ Transform:
   - {fileID: 8191842708761458587}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2344044083695896743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793945568493296787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d593bd6d8929452da1ad87188208c0e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <LogicComponent>k__BackingField: {fileID: 6400272104484973495}
+  <ArrowSpawnerComponent>k__BackingField: {fileID: 576259523813306608}
 --- !u!114 &6400272104484973495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,8 +63,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e518ee1718eed0e4697c66dbc1009ab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthComponent: {fileID: 7963447424705424234}
-  _attackComponent: {fileID: 183837079733404563}
+  <HealthComponent>k__BackingField: {fileID: 7963447424705424234}
+  <DamageableComponent>k__BackingField: {fileID: 2500766618538349884}
+  <AttackComponent>k__BackingField: {fileID: 183837079733404563}
 --- !u!114 &7963447424705424234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,6 +104,7 @@ MonoBehaviour:
       <Damage>k__BackingField: 25
       <AttackType>k__BackingField: 0
   _selectTargetType: 1
+  _healthComponent: {fileID: 7963447424705424234}
 --- !u!114 &2500766618538349884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8191842708761458587}
   - component: {fileID: 4445881445823237414}
+  - component: {fileID: 576259523813306608}
   m_Layer: 0
   m_Name: View
   m_TagString: Untagged
@@ -130,7 +148,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7090993458996149981}
   m_Father: {fileID: 2600468154165148636}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4445881445823237414
@@ -148,4 +167,53 @@ MonoBehaviour:
   _healthComponent: {fileID: 7963447424705424234}
   _attackComponent: {fileID: 183837079733404563}
   _animator: {fileID: 0}
-  _localAttackSpeedMultiplier: 0.2
+  _attackSpeedAnimationMultiplier: 0
+--- !u!114 &576259523813306608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3084865008240777309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d52b84f7a65d48048e01ae6f9507b95e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _archerPrefab: {fileID: 7491926482643700458, guid: 1aa1efbd4b3d35b4884d4ae2873596a7, type: 3}
+  _attackComponent: {fileID: 183837079733404563}
+  _spawnPointTransform: {fileID: 7090993458996149981}
+  _spawnDelayAfterStartAttack: 0
+  _maxFlyTime: 1
+  _distanceDividerForFlyTime: 50
+--- !u!1 &7855224411539408353
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7090993458996149981}
+  m_Layer: 0
+  m_Name: ArcherSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7090993458996149981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7855224411539408353}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8191842708761458587}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

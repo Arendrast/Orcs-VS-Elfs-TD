@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Modules.PlayerUnitModule.Scripts
 {
-    public class PlayerUnitViewComponent : MonoBehaviour
+    public class PlayerUnitAnimationsComponent : MonoBehaviour
     {
         [SerializeField] private HealthComponent _healthComponent;
         [SerializeField] private AttackComponent _attackComponent;

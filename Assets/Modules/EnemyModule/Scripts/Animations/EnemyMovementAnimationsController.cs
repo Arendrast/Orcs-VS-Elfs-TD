@@ -18,6 +18,11 @@ namespace Modules.EnemyModule.Scripts.Animations
             _targetPointMovementModel = targetPointMovementModel;
             _animator = animator;
             targetPointMovementModel.StartedMovement += PlayMoveAnimation;
+
+            if (targetPointMovementModel.DoesMove)
+            {
+                PlayMoveAnimation();
+            }
         }
 
         public void Dispose()

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Modules.EntityModule.Scripts.Attack.FollowNearestDamageable;
+using Modules.EntityModule.Scripts.Health;
 using UnityEngine;
 
 namespace Modules.EntityModule.Scripts.Attack
@@ -19,21 +20,23 @@ namespace Modules.EntityModule.Scripts.Attack
         public event Action<IAttackConfig> StartedAttackByConfig, EndedAttackByConfig;
 
         public readonly AttacksConfig<TAttackType, TCustomAttackConfig> AttacksConfig;
+        private readonly HealthModel _healthModel;
 
         private readonly Func<Vector3> _positionFunc;
 
         public AttackModel(Func<Vector3> positionFunc, AttacksConfig<TAttackType, TCustomAttackConfig> attacksConfig,
-            SelectDamageableModel.SelectTargetType selectTargetType)
+            SelectDamageableModel.SelectTargetType selectTargetType, HealthModel healthModel)
         {
             _positionFunc = positionFunc;
             AttacksConfig = attacksConfig;
+            _healthModel = healthModel;
 
             SelectDamageableModel = new SelectDamageableModel(_positionFunc, selectTargetType);
         }
 
         public bool TryStartAttack(AttackConfig<TAttackType, TCustomAttackConfig> config)
         {
-            if (IsAttacking)
+            if (IsAttacking || _healthModel is { IsDied: true })
             {
                 return false;
             }

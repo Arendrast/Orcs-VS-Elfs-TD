@@ -97,7 +97,7 @@ namespace Modules.EntityModule.Scripts.Attack
                 _dealtDamageInCurrentAttack = true;
             }
 
-            if (_remainingTime <= 0)
+            if (_remainingTime <= 0 || _model.TargetData.Value.Damageable.IsDied)
             {
                 _model.TryEndAttack();
                 _dealtDamageInCurrentAttack = false;

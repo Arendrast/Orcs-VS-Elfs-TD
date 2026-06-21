@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Modules.EntityModule.Scripts.Damageable;
 using Modules.EntityModule.Scripts.Health;
 using Modules.EntityModule.Scripts.Movement.Path;
 using Modules.EntityModule.Scripts.Movement.TargetPoint;
@@ -10,10 +11,11 @@ namespace Modules.EnemyModule.Scripts.Orc
 {
     public class OrcEnemyLogicComponent : MonoBehaviour
     {
-        [SerializeField] private HealthComponent _healthComponent;
-        [SerializeField] private PathMovementComponent _pathMovementComponent;
-        [SerializeField] private TargetPointMovementComponent _targetPointMovementComponent;
-        [SerializeField] private OrcEnemyAttackComponent _attackComponent;
+        [field: SerializeField] public HealthComponent HealthComponent { get; private set; }
+        [field: SerializeField] public PathMovementComponent MovementComponent { get; private set; }
+        [field: SerializeField] public TargetPointMovementComponent PointMovementComponent { get; private set; }
+        [field: SerializeField] public OrcEnemyAttackComponent AttackComponent { get; private set; }
+        [field: SerializeField] public DamageableComponent DamageableComponent { get; private set; }
 
         private void Start()
         {
@@ -32,47 +34,47 @@ namespace Modules.EnemyModule.Scripts.Orc
                 return;
             }
 
-            if (_attackComponent.AttackController.ShouldMoveToTarget())
+            if (AttackComponent.AttackController.ShouldMoveToTarget())
             {
                 TryMoveToTarget();
                 return;
             }
             
-            _targetPointMovementComponent.Controller.TryStopMove();
-            _attackComponent.AttackController.Update(Time.deltaTime, out var waitForCooldown);
+            PointMovementComponent.Controller.TryStopMove();
+            AttackComponent.AttackController.Update(Time.deltaTime, out var waitForCooldown);
         }
 
         private void TryMoveToTarget()
         {
-            var targetPoint = _attackComponent.ConcreteAttackModel.TargetData.Value.Transform.position;
+            var targetPoint = AttackComponent.ConcreteAttackModel.TargetData.Value.Transform.position;
 
-            if ((targetPoint - _targetPointMovementComponent.Model.TargetPoint).sqrMagnitude > ConstantsHolder.SqrEpsilon)
+            if ((targetPoint - PointMovementComponent.Model.TargetPoint).sqrMagnitude > ConstantsHolder.SqrEpsilon)
             {
-                _targetPointMovementComponent.Controller.MoveToPoint(targetPoint, _pathMovementComponent.MovementConfig.Speed);
+                PointMovementComponent.Controller.MoveToPoint(targetPoint, MovementComponent.MovementConfig.Speed);
             }
         }
 
         private bool CantHandleAttack()
         {
-            return _healthComponent.Model.IsDied || !_pathMovementComponent.Model.DoesEndPath() ||
-                   _attackComponent.ConcreteAttackModel is { TargetData: null };
+            return HealthComponent.Model.IsDied || !MovementComponent.Model.DoesEndPath() ||
+                   AttackComponent.ConcreteAttackModel is { TargetData: null };
         }
         
         private void Subscribe()
         {
-            _healthComponent.Model.Died += OnDie;
+            HealthComponent.Model.Died += OnDie;
         }
 
         private void Unsubscribe()
         {
-            _healthComponent.Model.Died -= OnDie;
+            HealthComponent.Model.Died -= OnDie;
         }
         
         private void OnDie()
         {
-            _pathMovementComponent.Controller?.TryStopMove();
-            _targetPointMovementComponent.Controller?.TryStopMove();
-            _attackComponent.AttackController.OnEndAttacks();
+            MovementComponent.Controller?.TryStopMove();
+            PointMovementComponent.Controller?.TryStopMove();
+            AttackComponent.AttackController.OnEndAttacks();
         }
     }
 }

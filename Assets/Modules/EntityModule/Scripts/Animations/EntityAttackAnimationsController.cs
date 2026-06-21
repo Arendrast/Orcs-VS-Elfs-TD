@@ -19,19 +19,18 @@ namespace Modules.EntityModule.Scripts.Animations
             _animator = animator;
             _attackSpeedMultiplier = attackSpeedMultiplier;
 
-            attackModel.StartedAttackByConfig += PlayAttackAnimation;
+            attackModel.StartedAttackByConfig += TryPlayAttackAnimation;
         }
 
         public void Dispose()
         {
-            _attackModel.StartedAttackByConfig -= PlayAttackAnimation;
+            _attackModel.StartedAttackByConfig -= TryPlayAttackAnimation;
         }
 
-        private void PlayAttackAnimation(IAttackConfig config)
+        private void TryPlayAttackAnimation(IAttackConfig config)
         {
             _animator.SetFloat(AttackSpeedMultiplier, config.FullAttackTime * _attackSpeedMultiplier);
             _animator.CrossFade("Attack", 0.1f, -1, 0f);
-            Debug.Log("Play attack");
         }
     }
 }
