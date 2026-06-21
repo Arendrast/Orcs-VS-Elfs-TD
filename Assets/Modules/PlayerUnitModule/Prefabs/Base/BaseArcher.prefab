@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7963447424705424234}
   - component: {fileID: 183837079733404563}
   - component: {fileID: 2500766618538349884}
+  - component: {fileID: 1062981353015400964}
   m_Layer: 0
   m_Name: BaseArcher
   m_TagString: Untagged
@@ -51,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <LogicComponent>k__BackingField: {fileID: 6400272104484973495}
   <ArrowSpawnerComponent>k__BackingField: {fileID: 576259523813306608}
+  <MergeUnitComponent>k__BackingField: {fileID: 1062981353015400964}
 --- !u!114 &6400272104484973495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +120,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthComponent: {fileID: 7963447424705424234}
+--- !u!114 &1062981353015400964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793945568493296787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f3cab791884854918abc24631cad1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Id>k__BackingField: 0
 --- !u!1 &3084865008240777309
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,7 +200,7 @@ MonoBehaviour:
   _spawnPointTransform: {fileID: 7090993458996149981}
   _spawnDelayAfterStartAttack: 0
   _maxFlyTime: 1
-  _distanceDividerForFlyTime: 50
+  _distanceDividerForFlyTime: 100
 --- !u!1 &7855224411539408353
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,8 +32,9 @@ namespace Modules.EnemyModule.Scripts.Orc
         {
             _enemyDamageablesRepository.TryAdd(components.gameObject,
                 components.OrcEnemyLogicComponent.DamageableComponent);
-            
-            components.OrcEnemyLogicComponent.AttackComponent.Construct(_playerDamageablesRepository);
+
+            components.OrcEnemyLogicComponent.AttackComponent.Construct(_playerDamageablesRepository,
+                components.OrcEnemyLogicComponent.AttackComponent.CanSkipAttack);
             _coroutineRunner.StartCoroutine(components.ActivatorAfterDelayComponent.DelayedActivate());
             components.ToCameraLookerComponent.Construct(_camera);
         }

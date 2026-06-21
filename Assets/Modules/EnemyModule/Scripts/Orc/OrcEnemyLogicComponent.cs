@@ -5,6 +5,7 @@ using Modules.EntityModule.Scripts.Health;
 using Modules.EntityModule.Scripts.Movement.Path;
 using Modules.EntityModule.Scripts.Movement.TargetPoint;
 using Modules.SharedModule;
+using Modules.SharedModule.Scripts;
 using UnityEngine;
 
 namespace Modules.EnemyModule.Scripts.Orc
@@ -39,7 +40,7 @@ namespace Modules.EnemyModule.Scripts.Orc
                 TryMoveToTarget();
                 return;
             }
-            
+
             PointMovementComponent.Controller.TryStopMove();
             AttackComponent.AttackController.Update(Time.deltaTime, out var waitForCooldown);
         }
@@ -59,7 +60,7 @@ namespace Modules.EnemyModule.Scripts.Orc
             return HealthComponent.Model.IsDied || !MovementComponent.Model.DoesEndPath() ||
                    AttackComponent.ConcreteAttackModel is { TargetData: null };
         }
-        
+
         private void Subscribe()
         {
             HealthComponent.Model.Died += OnDie;
@@ -67,9 +68,10 @@ namespace Modules.EnemyModule.Scripts.Orc
 
         private void Unsubscribe()
         {
-            HealthComponent.Model.Died -= OnDie;
+            if (HealthComponent != null)
+                HealthComponent.Model.Died -= OnDie;
         }
-        
+
         private void OnDie()
         {
             MovementComponent.Controller?.TryStopMove();

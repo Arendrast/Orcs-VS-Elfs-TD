@@ -45,15 +45,15 @@ namespace Modules.EntityModule.Scripts.Attack
             }
         }
 
-        public void Construct(DamageablesRepository damageablesRepository, Func<Vector3> positionFunc = null, bool
-            subscribeToDoDamage = true)
+        public void Construct(DamageablesRepository damageablesRepository, Func<bool> canSkipAttackFunc,
+            Func<Vector3> positionFunc = null, bool subscribeToDoDamage = true)
         {
             _healthComponent?.Initializer.TryInitialize();
             
             ConcreteAttackModel = new AttackModel<TAttackType, TCustomAttackConfig>(positionFunc ?? GetDefaultPosition,
                 _attacksConfig, _selectTargetType, _healthComponent?.Model);
             AttackController =
-                new AttackController<TAttackType, TCustomAttackConfig>(ConcreteAttackModel, damageablesRepository);
+                new AttackController<TAttackType, TCustomAttackConfig>(ConcreteAttackModel, damageablesRepository, canSkipAttackFunc);
 
             if (subscribeToDoDamage)
             {

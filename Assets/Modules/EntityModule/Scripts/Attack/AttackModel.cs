@@ -11,9 +11,10 @@ namespace Modules.EntityModule.Scripts.Attack
         where TCustomAttackConfig : ICustomAttackConfig
     {
         public TargetData? TargetData => SelectDamageableModel.TargetData;
+        public IAttackConfig TargetAttackConfig => ConcreteTargetAttackConfig;
 
         public bool IsAttacking { get; private set; }
-        public AttackConfig<TAttackType, TCustomAttackConfig> TargetAttackConfig { get; private set; }
+        public AttackConfig<TAttackType, TCustomAttackConfig> ConcreteTargetAttackConfig { get; private set; }
         public SelectDamageableModel SelectDamageableModel { get; }
 
         public event Action<AttackConfig<TAttackType, TCustomAttackConfig>> StartedAttack, EndedAttack;
@@ -46,7 +47,7 @@ namespace Modules.EntityModule.Scripts.Attack
             StartedAttack?.Invoke(config);
             StartedAttackByConfig?.Invoke(config);
 
-            TargetAttackConfig = config;
+            ConcreteTargetAttackConfig = config;
 
             return true;
         }
@@ -77,10 +78,10 @@ namespace Modules.EntityModule.Scripts.Attack
 
             IsAttacking = false;
 
-            EndedAttack?.Invoke(TargetAttackConfig);
-            EndedAttackByConfig?.Invoke(TargetAttackConfig);
+            EndedAttack?.Invoke(ConcreteTargetAttackConfig);
+            EndedAttackByConfig?.Invoke(ConcreteTargetAttackConfig);
 
-            TargetAttackConfig = null;
+            ConcreteTargetAttackConfig = null;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Modules.EntityModule.Scripts.Health;
 using Modules.SharedModule;
+using Modules.SharedModule.Scripts;
 using UnityEngine;
 
 namespace Modules.EntityModule.Scripts.Damageable

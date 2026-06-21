@@ -4,6 +4,7 @@ using Modules.EnemyModule.Scripts.Orc;
 using Modules.EntityModule.Scripts.Damageable;
 using Modules.PlayerUnitModule.Scripts.Archer;
 using Modules.PlayerUnitModule.Scripts.Merge;
+using Modules.SharedModule.Scripts.Input;
 using UnityEngine;
 
 namespace Modules.CoreModule.Scripts
@@ -30,10 +31,13 @@ namespace Modules.CoreModule.Scripts
             var orcEnemyFactory = new OrcEnemyFactory(playerDamageablesRepository, enemyDamageablesRepository,
                 _gameplayComponents, _camera);
 
-            var mergeUnitFactory = new MergeUnitFactory(_gameplayComponents.MergeGridComponent.GridConfig);
+            var mergeUnitFactory = new MergeUnitFactory(_gameplayComponents.MergeGridComponent.GridConfig,
+                playerArcherFactory.GetCreatedPlayerArcherMergeUnitComponent);
+
+            var inputService = new NewInputSystemService(new InputActions());
 
             var gamePlayState = new GameplayGameState(_gameplayComponents, playerArcherFactory, orcEnemyFactory,
-                mergeUnitFactory, _camera);
+                mergeUnitFactory, _camera, inputService);
 
             new BootstrapGameState(gamePlayState).Enter();
         }

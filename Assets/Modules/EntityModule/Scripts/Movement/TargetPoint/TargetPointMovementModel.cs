@@ -10,7 +10,7 @@ namespace Modules.EntityModule.Scripts.Movement.TargetPoint
         public float TargetSpeed { get; set; }
         public bool DoesMove { get; private set; }
 
-        public event Action StartedMovement;
+        public event Action StartedMovement, StoppedMovement;
         
         public void SetDoesMove(bool isMove)
         {
@@ -18,9 +18,14 @@ namespace Modules.EntityModule.Scripts.Movement.TargetPoint
             
             DoesMove = isMove;
 
-            if (!didMove && isMove)
+            switch (didMove)
             {
-                StartedMovement?.Invoke();
+                case false when isMove:
+                    StartedMovement?.Invoke();
+                    break;
+                case true when !isMove:
+                    StoppedMovement?.Invoke();
+                    break;
             }
         }
     }

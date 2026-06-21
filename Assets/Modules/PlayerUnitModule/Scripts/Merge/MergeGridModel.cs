@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Modules.PlayerUnitModule.Scripts.Merge
 {
-    public class MergeGridModel // Сделал все через модели, чтобы была возможность запускать тесты мёрджа без юнити цикла.
+    public class
+        MergeGridModel // Сделал все через модели, чтобы была возможность запускать тесты мёрджа без юнити цикла.
     {
         public IReadOnlyList<MergeCellModel> Cells => _cells;
 
@@ -25,7 +27,8 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
         {
             didMoveTargetUnit = false;
 
-            if (mergeCellModel1.HasTargetUnit() && mergeCellModel2.HasTargetUnit())
+            if (mergeCellModel1 == null || mergeCellModel2 == null || mergeCellModel1 == mergeCellModel2 ||
+                !mergeCellModel1.HasTargetUnit() && !mergeCellModel2.HasTargetUnit())
             {
                 return false;
             }
@@ -45,26 +48,28 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
                 return false;
             }
 
+            MergeCells(mergeCellModel1, mergeCellModel2, upgradedUnit);
+            return true;
+        }
+
+        private void MergeCells(MergeCellModel mergeCellModel1, MergeCellModel mergeCellModel2,
+            MergeUnitModel upgradedUnit)
+        {
             BeforeUpgradeCellUnit?.Invoke(mergeCellModel1, mergeCellModel2);
-            
+
             mergeCellModel1.TargetUnit = null;
             mergeCellModel2.TargetUnit = upgradedUnit;
 
             UpgradedCellUnit?.Invoke(mergeCellModel1, mergeCellModel2);
-            
-            return true;
         }
 
         private void MoveUnitBetweenCells(MergeCellModel mergeCellModel1, MergeCellModel mergeCellModel2)
         {
-            if (!mergeCellModel1.HasTargetUnit())
-            {
-                mergeCellModel1.TargetUnit = mergeCellModel2.TargetUnit;
-            }
-            else
-            {
-                mergeCellModel2.TargetUnit = mergeCellModel1.TargetUnit;
-            }
+            var firstTargetUnit = mergeCellModel1.TargetUnit;
+            var secondTargetUnit = mergeCellModel2.TargetUnit;
+
+            mergeCellModel1.TargetUnit = secondTargetUnit;
+            mergeCellModel2.TargetUnit = firstTargetUnit;
         }
     }
 }

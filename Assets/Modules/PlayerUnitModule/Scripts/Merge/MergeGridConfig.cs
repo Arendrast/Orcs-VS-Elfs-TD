@@ -10,7 +10,7 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
 
         public int GetMergeUnitId(MergeUnitComponent mergeUnitComponent)
         {
-            return Array.IndexOf(MergeUnitComponents, mergeUnitComponent);
+            return mergeUnitComponent.Id;
         }
 
         public int GetMaxId()

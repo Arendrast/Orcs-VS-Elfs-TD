@@ -1,4 +1,5 @@
 ﻿using System;
+using Modules.SharedModule.Scripts.Input;
 using UnityEngine;
 
 namespace Modules.PlayerUnitModule.Scripts.Merge
@@ -12,12 +13,24 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
 
         private void Update()
         {
-            _dragAndDropGridController.TryMoveSelectedUnitAndMergeUnits();
+            _dragAndDropGridController.TryMoveSelectedUnit();
         }
 
-        public void Construct(Camera camera, MergeGridModel mergeGridModel)
+        private void OnEnable()
         {
-            _dragAndDropGridController = new DragAndDropGridController(camera, _config, mergeGridModel);
+            _dragAndDropGridController?.SubscribeToInputService();
+        }
+
+        private void OnDisable()
+        {
+            _dragAndDropGridController?.Dispose();
+        }
+
+        public void Construct(Camera camera, MergeGridModel mergeGridModel, Func<bool> canMoveOrMergeFunc,
+            IInputService inputService)
+        {
+            _dragAndDropGridController = new DragAndDropGridController(camera, _config, mergeGridModel, canMoveOrMergeFunc, inputService);
+            _dragAndDropGridController.SubscribeToInputService();
         }
     }
 }

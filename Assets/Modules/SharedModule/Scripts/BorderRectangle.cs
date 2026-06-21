@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Modules.SharedModule
+namespace Modules.SharedModule.Scripts
 {
     [Serializable]
     public struct BorderRectangle

@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using Modules.EntityModule.Scripts.Movement.TargetPoint;
 using Modules.SharedModule;
+using Modules.SharedModule.Scripts;
 using UnityEngine;
 
 namespace Modules.EntityModule.Scripts.Movement.Path

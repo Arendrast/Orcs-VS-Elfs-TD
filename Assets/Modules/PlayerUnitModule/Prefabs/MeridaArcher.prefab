@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 183837079733404563, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: _attacksConfig.<AttacksConfigs>k__BackingField.Array.data[0].<DoDamageTime>k__BackingField
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 183837079733404563, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: _attacksConfig.<AttacksConfigs>k__BackingField.Array.data[0].<FullAttackTime>k__BackingField
@@ -32,17 +32,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeridaArcher
       objectReference: {fileID: 0}
+    - target: {fileID: 1062981353015400964, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
+      propertyPath: <Id>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2600468154165148636, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2600468154165148636, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2600468154165148636, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2600468154165148636, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: m_LocalPosition.x

@@ -20,6 +20,11 @@ namespace Modules.EntityModule.Scripts.Animations
             _attackSpeedMultiplier = attackSpeedMultiplier;
 
             attackModel.StartedAttackByConfig += TryPlayAttackAnimation;
+
+            if (attackModel.IsAttacking)
+            {
+                TryPlayAttackAnimation(attackModel.TargetAttackConfig);
+            }
         }
 
         public void Dispose()

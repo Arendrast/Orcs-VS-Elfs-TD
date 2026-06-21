@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Modules.SharedModule;
+using Modules.SharedModule.Scripts;
 using UnityEngine;
 
 namespace Modules.EntityModule.Scripts.Damageable

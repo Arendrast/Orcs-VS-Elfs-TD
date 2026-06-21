@@ -5,7 +5,7 @@
         public readonly int Id;
         public readonly MergeUnitComponent Component;
 
-        public MergeUnitModel(MergeUnitComponent component, int id)
+        public MergeUnitModel(int id, MergeUnitComponent component = null)
         {
             Id = id;
             Component = component;

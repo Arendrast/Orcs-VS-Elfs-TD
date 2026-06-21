@@ -1,0 +1,17 @@
+{
+    "name": "EnemyModule",
+    "rootNamespace": "",
+    "references": [
+        "SharedModule",
+        "EntityModule"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

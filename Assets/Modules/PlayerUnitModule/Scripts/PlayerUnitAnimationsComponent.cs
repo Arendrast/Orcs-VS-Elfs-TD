@@ -21,7 +21,6 @@ namespace Modules.PlayerUnitModule.Scripts
         {
             if (_attackComponent != null)
             {
-                
                 _disposables.Add(new EntityAttackAnimationsController(_attackComponent.AttackModel, _animator, _attackSpeedAnimationMultiplier));
             }
 

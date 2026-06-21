@@ -18,6 +18,7 @@ namespace Modules.EnemyModule.Scripts.Animations
             _targetPointMovementModel = targetPointMovementModel;
             _animator = animator;
             targetPointMovementModel.StartedMovement += PlayMoveAnimation;
+            targetPointMovementModel.StoppedMovement += PlayIdleAnimation;
 
             if (targetPointMovementModel.DoesMove)
             {
@@ -27,7 +28,13 @@ namespace Modules.EnemyModule.Scripts.Animations
 
         public void Dispose()
         {
-            _targetPointMovementModel.StartedMovement -= PlayMoveAnimation;
+            _targetPointMovementModel.StartedMovement -= PlayIdleAnimation;
+            _targetPointMovementModel.StoppedMovement -= PlayIdleAnimation;
+        }
+
+        private void PlayIdleAnimation()
+        {
+            _animator.CrossFade("Idle", 0.1f, -1, 0f);
         }
 
         private void PlayMoveAnimation()

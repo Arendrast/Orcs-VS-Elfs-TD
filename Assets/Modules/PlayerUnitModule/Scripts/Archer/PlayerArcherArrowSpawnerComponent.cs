@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
-using GLTFast.Materials;
 using Modules.EntityModule.Scripts.Attack;
-using Modules.SharedModule;
+using Modules.SharedModule.Scripts;
 using UnityEngine;
 
 namespace Modules.PlayerUnitModule.Scripts.Archer

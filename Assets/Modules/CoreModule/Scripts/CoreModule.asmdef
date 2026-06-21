@@ -1,0 +1,19 @@
+{
+    "name": "CoreModule",
+    "rootNamespace": "",
+    "references": [
+        "EnemyModule",
+        "EntityModule",
+        "PlayerUnitModule",
+        "SharedModule"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

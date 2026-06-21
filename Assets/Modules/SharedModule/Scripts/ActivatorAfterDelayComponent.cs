@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Modules.SharedModule
+namespace Modules.SharedModule.Scripts
 {
     public class ActivatorAfterDelayComponent : MonoBehaviour
     {

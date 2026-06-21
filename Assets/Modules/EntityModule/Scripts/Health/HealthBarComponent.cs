@@ -17,7 +17,8 @@ namespace Modules.EntityModule.Scripts.Health
 
         private void OnDisable()
         {
-            _healthComponent.Model.ChangedHealthPoints -= UpdateBar;
+            if (_healthComponent != null)
+                _healthComponent.Model.ChangedHealthPoints -= UpdateBar;
         }
 
         private void UpdateBar(int healthPoints)

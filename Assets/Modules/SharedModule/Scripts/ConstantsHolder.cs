@@ -1,4 +1,4 @@
-﻿namespace Modules.SharedModule
+﻿namespace Modules.SharedModule.Scripts
 {
     public static class ConstantsHolder
     {

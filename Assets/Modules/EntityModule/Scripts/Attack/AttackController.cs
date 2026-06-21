@@ -11,19 +11,21 @@ namespace Modules.EntityModule.Scripts.Attack
         where TCustomAttackConfig : ICustomAttackConfig
     {
         public bool DoesMoveToTarget { get; private set; }
+        public bool DealtDamageInCurrentAttack { get; private set; }
 
         public event Action<IDamageable, AttackConfig<TAttackType, TCustomAttackConfig>, bool> DealtDamage;
 
         private float _remainingTime;
-        private bool _dealtDamageInCurrentAttack;
 
         private readonly AttackModel<TAttackType, TCustomAttackConfig> _model;
         private readonly SelectDamageableController _selectDamageableController;
+        private readonly Func<bool> _canSkipAttackFunc;
 
         public AttackController(AttackModel<TAttackType, TCustomAttackConfig> model,
-            DamageablesRepository damageablesRepository)
+            DamageablesRepository damageablesRepository, Func<bool> canSkipAttackFunc)
         {
             _model = model;
+            _canSkipAttackFunc = canSkipAttackFunc;
 
             _selectDamageableController = new SelectDamageableController(model.SelectDamageableModel, damageablesRepository);
         }
@@ -81,26 +83,26 @@ namespace Modules.EntityModule.Scripts.Attack
             DoesMoveToTarget = false;
             _remainingTime = 0;
             _model.TryEndAttack();
-            _dealtDamageInCurrentAttack = false;
+            DealtDamageInCurrentAttack = false;
         }
 
         private void WaitEndAttackAndEndAttackIfNeed(float deltaTime)
         {
             _remainingTime -= deltaTime;
             
-            if (!_dealtDamageInCurrentAttack &&
-                (_model.TargetAttackConfig.FullAttackTime - _model.TargetAttackConfig.DoDamageTime) > _remainingTime)
+            if (!DealtDamageInCurrentAttack &&
+                (_model.ConcreteTargetAttackConfig.FullAttackTime - _model.ConcreteTargetAttackConfig.DoDamageTime) > _remainingTime)
             {
                 DealtDamage?.Invoke(_model.SelectDamageableModel.TargetData.Value.Damageable,
-                    _model.TargetAttackConfig, _model.IsNearToTarget());
+                    _model.ConcreteTargetAttackConfig, _model.IsNearToTarget());
 
-                _dealtDamageInCurrentAttack = true;
+                DealtDamageInCurrentAttack = true;
             }
 
-            if (_remainingTime <= 0 || _model.TargetData.Value.Damageable.IsDied)
+            if (_remainingTime <= 0 || _canSkipAttackFunc.Invoke())
             {
                 _model.TryEndAttack();
-                _dealtDamageInCurrentAttack = false;
+                DealtDamageInCurrentAttack = false;
                 _remainingTime = _model.AttacksConfig.CooldownBetweenAttacks;
             }
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Modules.SharedModule
+namespace Modules.SharedModule.Scripts
 {
     public class DisableObserverComponent : MonoBehaviour
     {

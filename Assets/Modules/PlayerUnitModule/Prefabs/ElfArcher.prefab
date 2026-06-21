@@ -783,6 +783,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 183837079733404563, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
+      propertyPath: _attacksConfig.<AttacksConfigs>k__BackingField.Array.data[0].<DoDamageTime>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 183837079733404563, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: _attacksConfig.<AttacksConfigs>k__BackingField.Array.data[0].<FullAttackTime>k__BackingField
       value: 2
       objectReference: {fileID: 0}

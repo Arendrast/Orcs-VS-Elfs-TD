@@ -1,10 +1,9 @@
-#if UNITY_EDITOR
+
 using UnityEditor;
 using UnityEditor.SceneManagement;
-#endif
 using UnityEngine;
 
-namespace Modules.SharedModule
+namespace Modules.SharedModule.Scripts
 {
     public class GroupActivatorAfterDelayComponent : MonoBehaviour
     {

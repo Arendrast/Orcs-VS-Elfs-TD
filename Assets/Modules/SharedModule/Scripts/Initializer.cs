@@ -1,8 +1,6 @@
 ﻿using System;
-using NUnit.Framework;
-using UnityEngine;
 
-namespace Modules.SharedModule
+namespace Modules.SharedModule.Scripts
 { 
     public class Initializer // Сделал для случая, если надо будет обратиться к другому компоненту в течение кадра
     {

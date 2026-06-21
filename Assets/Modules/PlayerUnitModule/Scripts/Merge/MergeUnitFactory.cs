@@ -1,4 +1,5 @@
 ﻿using System;
+using Modules.PlayerUnitModule.Scripts.Archer;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -7,10 +8,13 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
     public class MergeUnitFactory
     {
         private readonly MergeGridConfig _mergeGridConfig;
+        private readonly Func<MergeUnitComponent, Vector3, MergeUnitComponent> _spawnMergeUnitComponent;
 
-        public MergeUnitFactory(MergeGridConfig mergeGridConfig)
+        public MergeUnitFactory(MergeGridConfig mergeGridConfig,
+            Func<MergeUnitComponent, Vector3, MergeUnitComponent> spawnMergeUnitComponent)
         {
             _mergeGridConfig = mergeGridConfig;
+            _spawnMergeUnitComponent = spawnMergeUnitComponent;
         }
 
         public MergeUnitModel GetUpgradedMergeUnitModel(MergeCellModel mergeCellForUpgrade)
@@ -34,11 +38,11 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
             {
                 return null;
             }
-            
-            var instance = Object.Instantiate(_mergeGridConfig.MergeUnitComponents[currentUnitId + 1],
-                mergeCellForUpgrade.MergeCellComponent.PositionTransform.position, Quaternion.identity);
 
-            return new MergeUnitModel(instance, upgradedUnitId);
+            var instance = _spawnMergeUnitComponent.Invoke(_mergeGridConfig.MergeUnitComponents[currentUnitId + 1],
+                mergeCellForUpgrade.MergeCellComponent.PositionTransform.position);
+
+            return new MergeUnitModel(upgradedUnitId, instance);
         }
     }
 }

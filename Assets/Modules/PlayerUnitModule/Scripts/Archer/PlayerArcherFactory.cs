@@ -1,4 +1,5 @@
 ﻿using Modules.EntityModule.Scripts.Damageable;
+using Modules.PlayerUnitModule.Scripts.Merge;
 using UnityEngine;
 
 namespace Modules.PlayerUnitModule.Scripts.Archer
@@ -17,6 +18,11 @@ namespace Modules.PlayerUnitModule.Scripts.Archer
             _enemyDamageablesRepository = enemyDamageablesRepository;
         }
 
+        public MergeUnitComponent GetCreatedPlayerArcherMergeUnitComponent(MergeUnitComponent prefab, Vector3 position)
+        {
+            return GetCreatedPlayerArcher(prefab.GetComponent<PlayerArcherComponents>(), position).MergeUnitComponent;
+        }
+
         public PlayerArcherComponents GetCreatedPlayerArcher(PlayerArcherComponents prefab, Vector3 position)
         {
             var instance = Object.Instantiate(prefab, position, Quaternion.identity);
@@ -27,7 +33,7 @@ namespace Modules.PlayerUnitModule.Scripts.Archer
         public void InitializePlayerArcherInstance(PlayerArcherComponents components)
         {
             _playerDamageablesRepository.TryAdd(components.gameObject, components.LogicComponent.DamageableComponent);
-            components.LogicComponent.AttackComponent.Construct(_enemyDamageablesRepository, subscribeToDoDamage: false);
+            components.LogicComponent.AttackComponent.Construct(_enemyDamageablesRepository, components.LogicComponent.AttackComponent.CanSkipAttack, subscribeToDoDamage: false);
             components.ArrowSpawnerComponent.Construct(_archerArrowFactory);
         }
     }
