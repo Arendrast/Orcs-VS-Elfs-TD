@@ -4,6 +4,5 @@ namespace Modules.EnemyModule.Scripts.Orc
 {
     public class OrcEnemyAttackComponent : AttackComponent<OrcEnemyAttackType, EmptyCustomAttackConfig>
     {
-        
     }
 }

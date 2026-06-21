@@ -51,7 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 166233dae52bdbd4f84a8ed9c7f136fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeBeforeDisableAfterDie: 2
   _healthComponent: {fileID: 7963447424705424234}
   _pathMovementComponent: {fileID: 5014665154462901374}
   _targetPointMovementComponent: {fileID: 8029931999506850212}
@@ -197,6 +196,7 @@ MonoBehaviour:
   _targetPointMovementComponent: {fileID: 8029931999506850212}
   _attackComponent: {fileID: 653444505348111512}
   _animator: {fileID: 1667525981353261358}
+  _attackSpeedAnimationMultiplier: 1
 --- !u!1001 &4254165483035699656
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Modules.EntityModule.Scripts.Health;
 using Modules.EntityModule.Scripts.Movement.Path;
@@ -9,12 +10,20 @@ namespace Modules.EnemyModule.Scripts.Orc
 {
     public class OrcEnemyLogicComponent : MonoBehaviour
     {
-        [SerializeField] private float _timeBeforeDisableAfterDie;
-
         [SerializeField] private HealthComponent _healthComponent;
         [SerializeField] private PathMovementComponent _pathMovementComponent;
         [SerializeField] private TargetPointMovementComponent _targetPointMovementComponent;
         [SerializeField] private OrcEnemyAttackComponent _attackComponent;
+
+        private void Start()
+        {
+            Subscribe();
+        }
+
+        private void OnDisable()
+        {
+            Unsubscribe();
+        }
 
         private void Update()
         {
@@ -33,11 +42,6 @@ namespace Modules.EnemyModule.Scripts.Orc
             _attackComponent.AttackController.Update(Time.deltaTime, out var waitForCooldown);
         }
 
-        private void OnDisable()
-        {
-            Unsubscribe();
-        }
-
         private void TryMoveToTarget()
         {
             var targetPoint = _attackComponent.ConcreteAttackModel.TargetData.Value.Transform.position;
@@ -53,6 +57,11 @@ namespace Modules.EnemyModule.Scripts.Orc
             return _healthComponent.Model.IsDied || !_pathMovementComponent.Model.DoesEndPath() ||
                    _attackComponent.ConcreteAttackModel is { TargetData: null };
         }
+        
+        private void Subscribe()
+        {
+            _healthComponent.Model.Died += OnDie;
+        }
 
         private void Unsubscribe()
         {
@@ -61,6 +70,8 @@ namespace Modules.EnemyModule.Scripts.Orc
         
         private void OnDie()
         {
+            _pathMovementComponent.Controller?.TryStopMove();
+            _targetPointMovementComponent.Controller?.TryStopMove();
             _attackComponent.AttackController.OnEndAttacks();
         }
     }

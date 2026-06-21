@@ -4,6 +4,7 @@ namespace Modules.EntityModule.Scripts.Attack
 {
     public interface IAttackModel
     {
-        event Action StartedAttackWithoutArgs, EndedAttackWithoutArgs;
+        TargetData? TargetData { get; }
+        event Action<IAttackConfig> StartedAttackByConfig, EndedAttackByConfig;
     }
 }

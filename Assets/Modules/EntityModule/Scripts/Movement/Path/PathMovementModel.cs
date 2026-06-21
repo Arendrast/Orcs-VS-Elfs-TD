@@ -6,8 +6,8 @@ namespace Modules.EntityModule.Scripts.Movement.Path
 {
     public class PathMovementModel
     {
-        public event Action EndedAllPath;
         public TargetPointMovementModel TargetPointMovementModel { get; }
+        public event Action EndedAllPath;
 
         private int _targetPointIndex;
 

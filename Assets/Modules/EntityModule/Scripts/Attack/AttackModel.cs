@@ -16,7 +16,7 @@ namespace Modules.EntityModule.Scripts.Attack
         public SelectDamageableModel SelectDamageableModel { get; }
 
         public event Action<AttackConfig<TAttackType, TCustomAttackConfig>> StartedAttack, EndedAttack;
-        public event Action StartedAttackWithoutArgs, EndedAttackWithoutArgs;
+        public event Action<IAttackConfig> StartedAttackByConfig, EndedAttackByConfig;
 
         public readonly AttacksConfig<TAttackType, TCustomAttackConfig> AttacksConfig;
 
@@ -41,7 +41,7 @@ namespace Modules.EntityModule.Scripts.Attack
             IsAttacking = true;
 
             StartedAttack?.Invoke(config);
-            StartedAttackWithoutArgs?.Invoke();
+            StartedAttackByConfig?.Invoke(config);
 
             TargetAttackConfig = config;
 
@@ -75,7 +75,7 @@ namespace Modules.EntityModule.Scripts.Attack
             IsAttacking = false;
 
             EndedAttack?.Invoke(TargetAttackConfig);
-            EndedAttackWithoutArgs?.Invoke();
+            EndedAttackByConfig?.Invoke(TargetAttackConfig);
 
             TargetAttackConfig = null;
         }

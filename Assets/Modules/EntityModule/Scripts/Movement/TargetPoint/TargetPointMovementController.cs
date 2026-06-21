@@ -22,6 +22,8 @@ namespace Modules.EntityModule.Scripts.Movement.TargetPoint
             if (Model.DoesMove)
             {
                 _transform.DOKill();
+                OnStopMove();
+                return;
             }
         }
 
@@ -41,7 +43,7 @@ namespace Modules.EntityModule.Scripts.Movement.TargetPoint
                 _transform.forward = new Vector3(direction.x, 0, direction.z);
             }
             
-            _transform.DOMove(targetPosition, speed).SetSpeedBased().OnComplete(OnCompleteMove).OnKill(OnStopMove)
+            _transform.DOMove(targetPosition, speed).SetSpeedBased().OnComplete(OnCompleteMove)
                 .SetEase(Ease.Linear);
         }
 

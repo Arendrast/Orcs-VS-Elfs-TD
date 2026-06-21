@@ -27,7 +27,7 @@ namespace Modules.EnemyModule.Scripts.Animations
 
         private void PlayMoveAnimation()
         {
-            _animator.CrossFade("Move", 0.1f);
+            _animator.CrossFade("Move", 0.1f, -1, 0f);
             _animator.SetFloat(MovementSpeedMultiplierHash, _targetPointMovementModel.TargetSpeed * LocalMovementMultiplier);
         }
     }

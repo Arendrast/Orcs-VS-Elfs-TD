@@ -6,7 +6,7 @@ namespace Modules.EntityModule.Scripts.Damageable
 {
     public class DamageableComponent : MonoBehaviour, IDamageable
     {
-        public bool IsDied => Model.IsDied;
+        public bool IsDied => Model?.IsDied ?? false;
         public Initializer ComponentInitializer => _componentInitializer ??= new Initializer(TryInitialize);
         public DamageableModel Model { get; private set; }
 

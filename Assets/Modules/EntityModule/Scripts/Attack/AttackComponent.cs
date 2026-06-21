@@ -13,7 +13,7 @@ namespace Modules.EntityModule.Scripts.Attack
         public abstract void Construct(DamageablesRepository damageablesRepository, Func<Vector3> positionFunc = null);
     }
     
-    public class AttackComponent<TAttackType, TCustomAttackConfig> : AttackComponent
+    public abstract class AttackComponent<TAttackType, TCustomAttackConfig> : AttackComponent
         where TAttackType : Enum // AttackType сделан чтобы идентифицировать атаки. Конечно, можно было сделать и просто int, но это неудобно
         where TCustomAttackConfig : ICustomAttackConfig
     {
@@ -24,24 +24,6 @@ namespace Modules.EntityModule.Scripts.Attack
         [SerializeField] private bool _autoUpdate;
         [SerializeField] private AttacksConfig<TAttackType, TCustomAttackConfig> _attacksConfig;
         [SerializeField] private SelectDamageableModel.SelectTargetType _selectTargetType;
-
-
-        public override void Construct(DamageablesRepository damageablesRepository, Func<Vector3> positionFunc = null)
-        {
-            ConcreteAttackModel = new AttackModel<TAttackType, TCustomAttackConfig>(positionFunc ?? GetDefaultPosition, _attacksConfig, _selectTargetType);
-            AttackController = new AttackController<TAttackType, TCustomAttackConfig>(ConcreteAttackModel, damageablesRepository);
-            AttackController.DealtDamage += DoDamage;
-        }
-
-        private void DoDamage(IDamageable damageable, AttackConfig<TAttackType, TCustomAttackConfig> attackConfig, bool isNear)
-        {
-            damageable.TryTakeDamage(attackConfig.Damage);
-        }
-
-        private Vector3 GetDefaultPosition()
-        {
-            return transform.position;
-        }
 
         private void Update()
         {
@@ -60,6 +42,23 @@ namespace Modules.EntityModule.Scripts.Attack
                 AttackController.Dispose();
                 AttackController.DealtDamage -= DoDamage;
             }
+        }
+
+        public override void Construct(DamageablesRepository damageablesRepository, Func<Vector3> positionFunc = null)
+        {
+            ConcreteAttackModel = new AttackModel<TAttackType, TCustomAttackConfig>(positionFunc ?? GetDefaultPosition, _attacksConfig, _selectTargetType);
+            AttackController = new AttackController<TAttackType, TCustomAttackConfig>(ConcreteAttackModel, damageablesRepository);
+            AttackController.DealtDamage += DoDamage;
+        }
+
+        private void DoDamage(IDamageable damageable, AttackConfig<TAttackType, TCustomAttackConfig> attackConfig, bool isNear)
+        {
+            damageable.TryTakeDamage(attackConfig.Damage);
+        }
+
+        private Vector3 GetDefaultPosition()
+        {
+            return transform.position;
         }
     }
 }

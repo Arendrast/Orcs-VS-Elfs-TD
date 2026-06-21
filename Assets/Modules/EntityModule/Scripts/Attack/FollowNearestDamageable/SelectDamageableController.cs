@@ -29,14 +29,14 @@ namespace Modules.EntityModule.Scripts.Attack.FollowNearestDamageable
 
         private void Unsubscribe()
         {
-            _damageablesRepository.Added += TryAddDamageableToModel;
-            _damageablesRepository.Removed += TryRemoveDamageableFromModel;
+            _damageablesRepository.Added -= TryAddDamageableToModel;
+            _damageablesRepository.Removed -= TryRemoveDamageableFromModel;
         }
 
         private void Subscribe()
         {
-            _damageablesRepository.Added -= TryAddDamageableToModel;
-            _damageablesRepository.Removed -= TryRemoveDamageableFromModel;
+            _damageablesRepository.Added += TryAddDamageableToModel;
+            _damageablesRepository.Removed += TryRemoveDamageableFromModel;
         }
 
         private void TryAddDamageableToModel(GameObject gameObject, IDamageable damageable)

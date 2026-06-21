@@ -5,6 +5,7 @@ namespace Modules.EntityModule.Scripts.Movement.TargetPoint
 {
     public class TargetPointMovementModel
     {
+
         public Vector3 TargetPoint { get; set; }
         public float TargetSpeed { get; set; }
         public bool DoesMove { get; private set; }

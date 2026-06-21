@@ -87,7 +87,7 @@ namespace Modules.EntityModule.Scripts.Attack
         private void WaitEndAttackAndEndAttackIfNeed(float deltaTime)
         {
             _remainingTime -= deltaTime;
-
+            
             if (!_dealtDamageInCurrentAttack &&
                 (_model.TargetAttackConfig.FullAttackTime - _model.TargetAttackConfig.DoDamageTime) > _remainingTime)
             {

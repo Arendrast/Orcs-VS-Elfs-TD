@@ -1,4 +1,5 @@
 ﻿using Modules.EntityModule.Scripts.Damageable;
+using UnityEngine;
 
 namespace Modules.CoreModule.Scripts.GameStates
 {
@@ -32,7 +33,7 @@ namespace Modules.CoreModule.Scripts.GameStates
 
             foreach (var attackComponent in _gameplayComponents.PlayerAttackComponents)
             {
-                attackComponent.Construct(_playerDamageablesRepository);
+                attackComponent.Construct(_enemyDamageablesRepository);
             }
         }
 

@@ -45,7 +45,7 @@ namespace Modules.EntityModule.Scripts.Attack.FollowNearestDamageable
             var data = new TargetData(potentialTarget, damageable);
 
             _potentialTargetsDataInAttackZone.Add(potentialTarget, data);
-
+            
             if (TargetData == null)
             {
                 TargetData = data;
@@ -84,7 +84,18 @@ namespace Modules.EntityModule.Scripts.Attack.FollowNearestDamageable
 
         private void AppointTargetAsFirstAlive()
         {
+            TargetData = null;
             
+            foreach (var target in _potentialTargetsDataInAttackZone.Values)
+            {
+                if (target.Damageable.IsDied)
+                {
+                    continue;
+                }
+                
+                TargetData = target;
+                return;
+            }
         }
 
         private void AppointTargetAsNearestAlive()
