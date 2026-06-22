@@ -1,6 +1,7 @@
 using System;
 using Modules.EntityModule.Scripts.Attack.FollowNearestDamageable;
 using Modules.EntityModule.Scripts.Damageable;
+using Modules.EntityModule.Scripts.Health;
 using UnityEngine;
 using Random = System.Random;
 
@@ -20,12 +21,14 @@ namespace Modules.EntityModule.Scripts.Attack
         private readonly AttackModel<TAttackType, TCustomAttackConfig> _model;
         private readonly SelectDamageableController _selectDamageableController;
         private readonly Func<bool> _canSkipAttackFunc;
+        private readonly HealthModel _healthModel;
 
         public AttackController(AttackModel<TAttackType, TCustomAttackConfig> model,
-            DamageablesRepository damageablesRepository, Func<bool> canSkipAttackFunc)
+            DamageablesRepository damageablesRepository, Func<bool> canSkipAttackFunc, HealthModel healthModel = null)
         {
             _model = model;
             _canSkipAttackFunc = canSkipAttackFunc;
+            _healthModel = healthModel;
 
             _selectDamageableController = new SelectDamageableController(model.SelectDamageableModel, damageablesRepository);
         }
@@ -57,7 +60,7 @@ namespace Modules.EntityModule.Scripts.Attack
 
         public void TryStartAttack()
         {
-            if (_remainingTime > 0 || !_model.IsNearToTarget())
+            if (_remainingTime > 0 || !_model.IsNearToTarget() || (_healthModel != null && _healthModel.IsDied))
             {
                 return;
             }

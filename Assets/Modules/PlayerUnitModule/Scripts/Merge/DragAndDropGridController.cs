@@ -13,38 +13,49 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
 
         private MergeCellModel _selectedMergeCellModel;
         private bool _isHolding;
-        
+
         private readonly Camera _camera;
         private readonly DragAndDropGridConfig _config;
         private readonly MergeGridModel _mergeGridModel;
         private readonly Func<bool> _canMoveOrMergeFunc;
         private readonly IInputService _inputService;
+        private readonly UpgradeUnitVfxComponent _upgradeUnitVfxComponent;
 
         public DragAndDropGridController(Camera camera, DragAndDropGridConfig config,
-            MergeGridModel mergeGridModel, Func<bool> canMoveOrMergeFunc, IInputService inputService)
+            MergeGridModel mergeGridModel, Func<bool> canMoveOrMergeFunc, IInputService inputService,
+            UpgradeUnitVfxComponent upgradeUnitVfxComponent)
         {
             _camera = camera;
             _config = config;
             _mergeGridModel = mergeGridModel;
             _canMoveOrMergeFunc = canMoveOrMergeFunc;
             _inputService = inputService;
+            _upgradeUnitVfxComponent = upgradeUnitVfxComponent;
 
             _mergeCellModelByComponent =
                 mergeGridModel.Cells.ToDictionary(cell => cell.MergeCellComponent, cell => cell);
 
-            _mergeGridModel.BeforeUpgradeCellUnit += DisableUnits;
+            _mergeGridModel.BeforeUpgradeCellUnit += DisableUnitsAndEnableVfx;
         }
 
-        private void DisableUnits(MergeCellModel cellModel1, MergeCellModel cellModel2)
+        private void DisableUnitsAndEnableVfx(MergeCellModel cellModel1, MergeCellModel cellModel2)
         {
             cellModel1.TargetUnit.Component.gameObject.SetActive(false);
             cellModel2.TargetUnit.Component.gameObject.SetActive(false);
+            EnableVfx(cellModel2);
+        }
+
+        private void EnableVfx(MergeCellModel cellModel2)
+        {
+            _upgradeUnitVfxComponent.gameObject.SetActive(false);
+            _upgradeUnitVfxComponent.transform.position = cellModel2.TargetUnit.Component.transform.position + Vector3.up / 2;
+            _upgradeUnitVfxComponent.gameObject.SetActive(true);
         }
 
         public void Dispose()
         {
             UnsubscribeFromInputService();
-            _mergeGridModel.BeforeUpgradeCellUnit -= DisableUnits;
+            _mergeGridModel.BeforeUpgradeCellUnit -= DisableUnitsAndEnableVfx;
         }
 
         public void SubscribeToInputService()
@@ -70,7 +81,7 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
             {
                 return;
             }
-            
+
             if (_selectedMergeCellModel?.TargetUnit != null && Raycast(out var hit, _config.GridLayerMask))
             {
                 _selectedMergeCellModel.TargetUnit.Component.transform.position = hit.point;
@@ -83,7 +94,7 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
             {
                 return true;
             }
-            
+
             _selectedMergeCellModel?.TryReturnUnitToCellPoint();
             _selectedMergeCellModel = null;
             return false;
@@ -95,9 +106,10 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
             {
                 return;
             }
-            
+
             if (RaycastValidCellComponent(out var raycastHit, out var mergeCellModel) &&
-                _mergeGridModel.TryMergeCells(_selectedMergeCellModel, mergeCellModel, out var didMoveTargetUnit) && didMoveTargetUnit)
+                _mergeGridModel.TryMergeCells(_selectedMergeCellModel, mergeCellModel, out var didMoveTargetUnit) &&
+                didMoveTargetUnit)
             {
                 _selectedMergeCellModel = mergeCellModel;
             }
@@ -130,12 +142,12 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
 
         private bool Raycast(out RaycastHit hit, LayerMask layerMask)
         {
-            #if UNITY_STANDALONE
+#if UNITY_STANDALONE
             var mousePosition = Mouse.current.position.ReadValue();
-            #else
+#else
             var mousePosition = Touchscreen.current.primaryTouch.position.ReadValue();
-            #endif
-            
+#endif
+
             return Physics.Raycast(_camera.ScreenPointToRay(mousePosition),
                 out hit, _config.RaycastMaxDistance, layerMask,
                 QueryTriggerInteraction.Collide);

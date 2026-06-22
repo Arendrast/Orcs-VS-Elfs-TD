@@ -53,11 +53,8 @@ namespace Modules.CoreModule.Scripts.GameStates
 
         private bool CanMoveOrMerge()
         {
-            return _gameplayComponents.OrcEnemyComponents.All(component =>
-            {
-                return component.OrcEnemyLogicComponent.MovementComponent.Model == null ||
-                       !component.OrcEnemyLogicComponent.MovementComponent.Model.DoesEndPath();
-            });
+            return _gameplayComponents.OrcEnemyComponents.All(component => component.OrcEnemyLogicComponent.MovementComponent.Model == null ||
+                                                                           !component.OrcEnemyLogicComponent.MovementComponent.Model.DoesEndPath());
         }
 
         private void InitializePlayerUnits()

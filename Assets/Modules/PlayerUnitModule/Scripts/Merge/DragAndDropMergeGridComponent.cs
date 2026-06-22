@@ -8,6 +8,7 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
     {
         [SerializeField] private DragAndDropGridConfig _config;
         [SerializeField] private MergeGridComponent _mergeGridComponent;
+        [SerializeField] private UpgradeUnitVfxComponent _upgradeUnitVfxComponent;
 
         private DragAndDropGridController _dragAndDropGridController;
 
@@ -29,7 +30,8 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
         public void Construct(Camera camera, MergeGridModel mergeGridModel, Func<bool> canMoveOrMergeFunc,
             IInputService inputService)
         {
-            _dragAndDropGridController = new DragAndDropGridController(camera, _config, mergeGridModel, canMoveOrMergeFunc, inputService);
+            _dragAndDropGridController = new DragAndDropGridController(camera, _config, mergeGridModel,
+                canMoveOrMergeFunc, inputService, _upgradeUnitVfxComponent);
             _dragAndDropGridController.SubscribeToInputService();
         }
     }
