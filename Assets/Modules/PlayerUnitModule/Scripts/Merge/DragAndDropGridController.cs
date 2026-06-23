@@ -105,18 +105,20 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
 
         private void TryMergeOrMoveUnits(InputAction.CallbackContext callbackContext)
         {
-            if (_selectedMergeCellModel == null)
+            if (_selectedMergeCellModel == null || !CanMoveOrMerge())
             {
                 return;
             }
+            
 
             if (RaycastValidCellComponent(out var raycastHit, out var mergeCellModel) &&
                 _mergeGridModel.TryMergeCells(_selectedMergeCellModel, mergeCellModel, out var didMoveTargetUnit) &&
                 didMoveTargetUnit)
             {
                 _selectedMergeCellModel = mergeCellModel;
+                Debug.Log(mergeCellModel.TargetUnit);
             }
-
+            
             var unit = _selectedMergeCellModel.TargetUnit.Component;
             
             _selectedMergeCellModel.TryReturnUnitToCellPoint();
@@ -132,7 +134,7 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
 
         private void TrySelectMergeCell(InputAction.CallbackContext callbackContext)
         {
-            if (_selectedMergeCellModel == null &&
+            if (_selectedMergeCellModel == null && CanMoveOrMerge() &&
                 RaycastValidCellComponent(out var raycastHit, out var mergeCellModel) && mergeCellModel.TargetUnit != null)
             {
                 _selectedMergeCellModel = mergeCellModel;

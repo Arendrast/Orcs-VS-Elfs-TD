@@ -21,7 +21,7 @@ namespace Modules.SharedModule.Scripts
 
         private IEnumerator DisableAfterTime()
         {
-            yield return new WaitForSeconds(_timeBeforeDisable);
+            yield return new WaitForSecondsRealtime(_timeBeforeDisable);
             gameObject.SetActive(false);
         }
     }

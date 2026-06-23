@@ -23,11 +23,16 @@ namespace Modules.PlayerUnitModule.Scripts.Merge.MergeUnitTutorialPopup
             TutorialHandTools.StartHandMoveLoopAnimation(_config.HandTransform, camera.WorldToScreenPoint(firstUnit.transform.position),
                 camera.WorldToScreenPoint(secondUnit.transform.position), _config.OnFirstUnitHandRotation, _config.OnSecondUnitHandRotation, 
                 _config.MoveAndRotateHandDuration, _tweens);
+            
+            _popup.SetActive(true);
+
+            _config.CanvasGroup.alpha = 0;
+            _config.CanvasGroup.DOFade(1, _config.AppearDisappearDuration);
         }
 
         public void Close()
         {
-            _popup.SetActive(false);
+            _config.CanvasGroup.DOFade(0, _config.AppearDisappearDuration).OnComplete(Deactivate);
         }
 
         public void Dispose()
@@ -36,6 +41,11 @@ namespace Modules.PlayerUnitModule.Scripts.Merge.MergeUnitTutorialPopup
             {
                 tween?.Kill();
             }
+        }
+
+        private void Deactivate()
+        {
+            _popup.SetActive(false);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Modules.CoreModule.Scripts.GameStates
         public bool CanMerge { get; private set; }
 
         private MergeGridModel _mergeGridModel;
+        private BuyUnitModel _buyUnitModel;
 
         private readonly DamageablesRepository _enemyDamageablesRepository;
         private readonly TutorialGameSubStateComponents _components;
@@ -21,13 +22,14 @@ namespace Modules.CoreModule.Scripts.GameStates
         private readonly BuyMergeUnitConfig _buyMergeUnitConfig;
         private readonly Camera _camera;
         private readonly TimeScaleRepositoryService _timeScaleRepositoryService;
-        private readonly BuyMergeUnitConfig _priceConfig;
         private readonly CurrencyRepositoryService _currencyRepositoryService;
+        private readonly BuyUnitPopupComponent _buyUnitPopupComponent;
+        private readonly MergeUnitFactory _mergeUnitFactory;
 
         public TutorialGameSubState(DamageablesRepository enemyDamageablesRepository,
             TutorialGameSubStateComponents components, BuyMergeUnitConfig buyMergeUnitConfig, Camera camera,
             MonoBehaviour coroutineRunner, TimeScaleRepositoryService timeScaleRepositoryService,
-            BuyMergeUnitConfig priceConfig, CurrencyRepositoryService currencyRepositoryService)
+            CurrencyRepositoryService currencyRepositoryService, BuyUnitPopupComponent buyUnitPopupComponent, MergeUnitFactory mergeUnitFactory)
         {
             _enemyDamageablesRepository = enemyDamageablesRepository;
             _components = components;
@@ -35,8 +37,9 @@ namespace Modules.CoreModule.Scripts.GameStates
             _camera = camera;
             _coroutineRunner = coroutineRunner;
             _timeScaleRepositoryService = timeScaleRepositoryService;
-            _priceConfig = priceConfig;
             _currencyRepositoryService = currencyRepositoryService;
+            _buyUnitPopupComponent = buyUnitPopupComponent;
+            _mergeUnitFactory = mergeUnitFactory;
         }
 
         public void Enter(MergeGridModel mergeGridModel)
@@ -48,15 +51,16 @@ namespace Modules.CoreModule.Scripts.GameStates
         private IEnumerator StartEnterCoroutine()
         {
             var firstEnemy = _enemyDamageablesRepository.Damageables.First().Value;
+            
             yield return new WaitWhile(() => !firstEnemy.IsDied);
 
+            yield return new WaitForSecondsRealtime(_components.DelayAfterKillFirstEnemyBeforeShowUI);
+
             _timeScaleRepositoryService.SetTimeScale(0);
+            
+            _buyUnitModel = new BuyUnitModel(_buyMergeUnitConfig, _currencyRepositoryService, _mergeGridModel);
 
-            yield return new WaitForSeconds(_components.DelayAfterKillFirstEnemyBeforeShowUI);
-
-            var buyUnitModel = new BuyUnitModel(_priceConfig, _currencyRepositoryService, _mergeGridModel);
-
-            _components.BuyUnitTutorialPopupComponent.BuyUnitTutorialPopupController.Open(_buyMergeUnitConfig, buyUnitModel);
+            _components.BuyUnitTutorialPopupComponent.BuyUnitTutorialPopupController.Open(_buyMergeUnitConfig, _buyUnitModel);
             _components.BuyUnitTutorialPopupComponent.BuyUnitTutorialPopupController.Closed += OnBuyFirstUnitTutorial;
         }
 
@@ -94,6 +98,7 @@ namespace Modules.CoreModule.Scripts.GameStates
 
             _components.MergeUnitTutorialPopupComponent.PopupController.Close();
 
+            _buyUnitPopupComponent.Construct(_buyUnitModel, _mergeUnitFactory, _buyMergeUnitConfig);
             _timeScaleRepositoryService.SetTimeScale(1);
         }
     }

@@ -8,10 +8,14 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitTutorialPopup
     [Serializable]
     public class BuyUnitTutorialPopupConfig
     {
+        [field: Space]
+        [field: Header("General")]   
+        [field: SerializeField]  public CanvasGroup CanvasGroup { get; private set; }
+        [field: SerializeField] public float CanvasGroupAppearTime { get; private set; } = 1f;
+        [field: SerializeField] public float CanvasGroupDisappearTime { get; private set; } = 0.5f;
+        
         [field: Header("Buy Button")]
-        [field: SerializeField]
-        public Button BuyButton { get; private set; }
-
+        [field: SerializeField]  public Button BuyButton { get; private set; }
         [field: SerializeField] public float BuyButtonSetScaleDuration { get; private set; } = 0.5f;
         [field: SerializeField] public float BuyButtonMaxScale { get; private set; } = 1f;
         [field: SerializeField] public float BuyButtonMinScale { get; private set; } = 0.5f;

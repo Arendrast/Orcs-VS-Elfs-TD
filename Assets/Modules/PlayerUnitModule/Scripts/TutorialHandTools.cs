@@ -7,17 +7,17 @@ namespace Modules.PlayerUnitModule.Scripts
     public static class TutorialHandTools
     {
         public static void StartHandMoveLoopAnimation(Transform hand, Vector3 startPoint, Vector3 endPoint, Vector3 startRotation,
-            Vector3 endRotation, float duration, List<Tween> tweens)
+            Vector3 endRotation, float duration, List<Tween> tweens, Ease ease = Ease.InOutSine)
         {
             hand.position = startPoint;
 
             tweens.Add(hand.DOMove(endPoint,
-                duration).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo).SetUpdate(true));
+                duration).SetEase(ease).SetLoops(-1, LoopType.Yoyo).SetUpdate(true));
 
             hand.rotation = Quaternion.Euler(startRotation);
 
             tweens.Add(hand.DORotate(endRotation,
-                duration).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo).SetUpdate(true));
+                duration).SetEase(ease).SetLoops(-1, LoopType.Yoyo).SetUpdate(true));
         }
     }
 }

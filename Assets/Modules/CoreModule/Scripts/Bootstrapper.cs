@@ -53,7 +53,8 @@ namespace Modules.CoreModule.Scripts
 
             var tutorialGameSubState = new TutorialGameSubState(enemyDamageablesRepository,
                 _gameplayStateComponents.TutorialGameSubStateComponents, _gameplayStateComponents.BuyMergeUnitConfig,
-                _camera, _gameplayStateComponents, timeScaleRepositoryService, _priceConfig, currencyRepositoryService);
+                _camera, _gameplayStateComponents, timeScaleRepositoryService, currencyRepositoryService, 
+                _gameplayStateComponents.BuyUnitPopupComponent, mergeUnitFactory);
 
             var gamePlayState = new GameplayGameState(_gameplayStateComponents, orcEnemyFactory,
                 mergeUnitFactory, _camera, inputService, tutorialGameSubState, audioService);

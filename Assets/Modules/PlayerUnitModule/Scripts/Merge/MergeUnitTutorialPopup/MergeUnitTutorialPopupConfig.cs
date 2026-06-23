@@ -10,5 +10,7 @@ namespace Modules.PlayerUnitModule.Scripts.Merge.MergeUnitTutorialPopup
         [field: SerializeField] public float MoveAndRotateHandDuration { get; private set; }
         [field: SerializeField] public Vector3 OnFirstUnitHandRotation { get; private set; }
         [field: SerializeField] public Vector3 OnSecondUnitHandRotation { get; private set; }
+        [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
+        [field: SerializeField] public float AppearDisappearDuration { get; private set; } = 0.5f;
     }
 }

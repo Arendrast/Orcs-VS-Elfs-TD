@@ -1,12 +1,11 @@
-﻿using Modules.PlayerUnitModule.Scripts.Merge;
+﻿using System;
+using Modules.PlayerUnitModule.Scripts.Merge;
 using Modules.SharedModule;
 
 namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitPopup
 {
     public class BuyUnitPopupController
     {
-        private int _boughtUnitsCount;
-
         private readonly BuyUnitPopupConfig _config;
         private readonly BuyUnitModel _model;
         private readonly MergeUnitFactory _mergeUnitFactory;
@@ -20,7 +19,7 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitPopup
             _mergeUnitFactory = mergeUnitFactory;
             _buyMergeUnitConfig = buyMergeUnitConfig;
             
-            _config.BuyButton.gameObject.SetActive(false);
+            EnableBuyButton();
         }
 
         public void EnableBuyButton()

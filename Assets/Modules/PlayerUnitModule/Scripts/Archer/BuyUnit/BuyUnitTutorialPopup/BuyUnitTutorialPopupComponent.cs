@@ -11,6 +11,7 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitTutorialPopup
 
         private void Awake()
         {
+            gameObject.SetActive(false);
             BuyUnitTutorialPopupController = new BuyUnitTutorialPopupController(_config, gameObject);
         }
 

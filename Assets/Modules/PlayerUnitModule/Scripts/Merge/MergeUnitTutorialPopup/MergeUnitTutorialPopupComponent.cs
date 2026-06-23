@@ -10,12 +10,13 @@ namespace Modules.PlayerUnitModule.Scripts.Merge.MergeUnitTutorialPopup
 
         private void Awake()
         {
+            gameObject.SetActive(false);
             PopupController = new MergeUnitTutorialPopupController(Config, gameObject);
         }
 
         private void OnDisable()
         {
-            PopupController.Dispose();
+            PopupController?.Dispose();
         }
     }
 }
