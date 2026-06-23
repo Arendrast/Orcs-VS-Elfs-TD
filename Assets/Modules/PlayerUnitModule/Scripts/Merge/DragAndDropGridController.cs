@@ -9,6 +9,8 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
 {
     public class DragAndDropGridController : IDisposable
     {
+        public event Action<MergeUnitComponent> SelectedUnitComponent, DeselectedUnitComponent;
+
         private readonly IReadOnlyDictionary<MergeCellComponent, MergeCellModel> _mergeCellModelByComponent;
 
         private MergeCellModel _selectedMergeCellModel;
@@ -48,7 +50,8 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
         private void EnableVfx(MergeCellModel cellModel2)
         {
             _upgradeUnitVfxComponent.gameObject.SetActive(false);
-            _upgradeUnitVfxComponent.transform.position = cellModel2.TargetUnit.Component.transform.position + Vector3.up / 2;
+            _upgradeUnitVfxComponent.transform.position =
+                cellModel2.TargetUnit.Component.transform.position + Vector3.up / 2;
             _upgradeUnitVfxComponent.gameObject.SetActive(true);
         }
 
@@ -114,8 +117,12 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
                 _selectedMergeCellModel = mergeCellModel;
             }
 
+            var unit = _selectedMergeCellModel.TargetUnit.Component;
+            
             _selectedMergeCellModel.TryReturnUnitToCellPoint();
             _selectedMergeCellModel = null;
+            
+            DeselectedUnitComponent?.Invoke(unit);
         }
 
         private void SetIsHolding(InputAction.CallbackContext callbackContext)
@@ -126,9 +133,10 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
         private void TrySelectMergeCell(InputAction.CallbackContext callbackContext)
         {
             if (_selectedMergeCellModel == null &&
-                RaycastValidCellComponent(out var raycastHit, out var mergeCellModel))
+                RaycastValidCellComponent(out var raycastHit, out var mergeCellModel) && mergeCellModel.TargetUnit != null)
             {
                 _selectedMergeCellModel = mergeCellModel;
+                SelectedUnitComponent?.Invoke(_selectedMergeCellModel.TargetUnit.Component);
             }
         }
 

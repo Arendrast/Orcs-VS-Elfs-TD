@@ -64,11 +64,6 @@ namespace Modules.EntityModule.Scripts.Attack.FollowNearestDamageable
             }
         }
 
-        public Vector3 GetDirectionToTarget()
-        {
-            return (TargetData.Value.Transform.position - _positionFunc.Invoke()).normalized;
-        }
-
         public void AppointTarget()
         {
             switch (SelectType)

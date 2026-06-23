@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Modules.PlayerUnitModule.Scripts.Archer;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -17,6 +18,24 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
             _spawnMergeUnitComponent = spawnMergeUnitComponent;
         }
 
+        public MergeUnitModel GetMergeUnitModel(MergeUnitComponent prefab, Vector3 position)
+        {
+            if (prefab == null)
+            {
+                return null;
+            }
+            
+            if (!_mergeGridConfig.MergeUnitComponents.Contains(prefab))
+            {
+                Debug.LogError("Missing unit prefab in merge grid config");
+                return null;
+            }
+            
+            var instance = _spawnMergeUnitComponent.Invoke(prefab, position); 
+            
+            return new MergeUnitModel(prefab.Id, instance);
+        }
+        
         public MergeUnitModel GetUpgradedMergeUnitModel(MergeCellModel mergeCellForUpgrade)
         {
             if (mergeCellForUpgrade == null || !mergeCellForUpgrade.MergeCellComponent ||

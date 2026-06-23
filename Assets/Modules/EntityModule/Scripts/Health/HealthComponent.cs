@@ -28,6 +28,7 @@ namespace Modules.EntityModule.Scripts.Health
         private void OnDisable()
         {
             Model.Died -= StartDelayedDisable;
+            Initializer.Deinitialize();
         }
 
         private void StartDelayedDisable()

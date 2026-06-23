@@ -1,4 +1,5 @@
-﻿using Modules.EntityModule.Scripts.Movement.TargetPoint;
+﻿using System;
+using Modules.EntityModule.Scripts.Movement.TargetPoint;
 using Modules.SharedModule;
 using Modules.SharedModule.Scripts;
 using UnityEngine;
@@ -19,6 +20,11 @@ namespace Modules.EntityModule.Scripts.Movement.Path
         public void Awake()
         {
             Initializer.TryInitialize();
+        }
+
+        private void OnDisable()
+        {
+            Initializer.Deinitialize();
         }
 
         private void TryInitialize()

@@ -1,5 +1,8 @@
-﻿using Modules.EntityModule.Scripts.Damageable;
+﻿using System.Collections.Generic;
+using Modules.EntityModule.Scripts.Damageable;
 using Modules.PlayerUnitModule.Scripts.Merge;
+using Modules.SharedModule.Scripts;
+using Modules.SharedModule.Scripts.Audio;
 using UnityEngine;
 
 namespace Modules.PlayerUnitModule.Scripts.Archer
@@ -9,23 +12,29 @@ namespace Modules.PlayerUnitModule.Scripts.Archer
         private readonly PlayerArcherArrowFactory _archerArrowFactory;
         private readonly DamageablesRepository _playerDamageablesRepository;
         private readonly DamageablesRepository _enemyDamageablesRepository;
+        private readonly Pool<PlayerArcherComponents> _pool;
+        private readonly AudioService _audioService;
 
         public PlayerArcherFactory(PlayerArcherArrowFactory archerArrowFactory,
-            DamageablesRepository playerDamageablesRepository, DamageablesRepository enemyDamageablesRepository)
+            DamageablesRepository playerDamageablesRepository, DamageablesRepository enemyDamageablesRepository,
+            AudioService audioService)
         {
             _archerArrowFactory = archerArrowFactory;
             _playerDamageablesRepository = playerDamageablesRepository;
             _enemyDamageablesRepository = enemyDamageablesRepository;
+            _audioService = audioService;
+            _pool = new Pool<PlayerArcherComponents>(null, null, null);
         }
 
-        public MergeUnitComponent GetCreatedPlayerArcherMergeUnitComponent(MergeUnitComponent prefab, Vector3 position)
+        public MergeUnitComponent GetPlayerArcherMergeUnitComponent(MergeUnitComponent prefab, Vector3 position)
         {
-            return GetCreatedPlayerArcher(prefab.GetComponent<PlayerArcherComponents>(), position).MergeUnitComponent;
+            return GetPlayerArcher(prefab.GetComponent<PlayerArcherComponents>(), position).MergeUnitComponent;
         }
 
-        public PlayerArcherComponents GetCreatedPlayerArcher(PlayerArcherComponents prefab, Vector3 position)
+        public PlayerArcherComponents GetPlayerArcher(PlayerArcherComponents prefab, Vector3 position)
         {
-            var instance = Object.Instantiate(prefab, position, Quaternion.identity);
+            var instance = _pool.TryGet(prefab);
+            instance.transform.position = position;
             InitializePlayerArcherInstance(instance);
             return instance;
         }
@@ -33,8 +42,10 @@ namespace Modules.PlayerUnitModule.Scripts.Archer
         public void InitializePlayerArcherInstance(PlayerArcherComponents components)
         {
             _playerDamageablesRepository.TryAdd(components.gameObject, components.LogicComponent.DamageableComponent);
-            components.LogicComponent.AttackComponent.Construct(_enemyDamageablesRepository, components.LogicComponent.AttackComponent.CanSkipAttack, subscribeToDoDamage: false);
+            components.LogicComponent.AttackComponent.Construct(_enemyDamageablesRepository,
+                components.LogicComponent.AttackComponent.CanSkipAttack, subscribeToDoDamage: false);
             components.ArrowSpawnerComponent.Construct(_archerArrowFactory);
+            components.EntitySoundsComponent.Construct(_audioService);
         }
     }
 }

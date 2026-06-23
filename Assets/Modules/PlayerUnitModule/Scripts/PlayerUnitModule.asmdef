@@ -4,7 +4,8 @@
     "references": [
         "Unity.InputSystem",
         "EntityModule",
-        "SharedModule"
+        "SharedModule",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

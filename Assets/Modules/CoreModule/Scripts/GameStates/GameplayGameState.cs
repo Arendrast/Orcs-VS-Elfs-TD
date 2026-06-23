@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Modules.EnemyModule.Scripts.Orc;
-using Modules.EntityModule.Scripts.Damageable;
 using Modules.PlayerUnitModule.Scripts.Archer;
 using Modules.PlayerUnitModule.Scripts.Merge;
+using Modules.SharedModule.Scripts.Audio;
 using Modules.SharedModule.Scripts.Input;
 using UnityEngine;
 
@@ -10,64 +10,65 @@ namespace Modules.CoreModule.Scripts.GameStates
 {
     public class GameplayGameState
     {
-        private readonly GameplayComponents _gameplayComponents;
+        private readonly GameplayStateComponents _gameplayStateComponents;
+        private readonly TutorialGameSubState _tutorialGameSubState;
 
-        private readonly PlayerArcherFactory _playerArcherFactory;
         private readonly OrcEnemyFactory _orcEnemyFactory;
         private readonly MergeUnitFactory _mergeUnitFactory;
         private readonly Camera _camera;
         private readonly IInputService _inputService;
+        private readonly AudioService _audioService;
 
-        public GameplayGameState(GameplayComponents gameplayComponents,
-            PlayerArcherFactory playerArcherFactory, OrcEnemyFactory orcEnemyFactory, MergeUnitFactory mergeUnitFactory,
-            Camera camera, IInputService inputService)
+        public GameplayGameState(GameplayStateComponents gameplayStateComponents,
+            OrcEnemyFactory orcEnemyFactory,
+            MergeUnitFactory mergeUnitFactory, Camera camera, IInputService inputService,
+            TutorialGameSubState tutorialGameSubState, AudioService audioService)
         {
-            _gameplayComponents = gameplayComponents;
-            _playerArcherFactory = playerArcherFactory;
+            _gameplayStateComponents = gameplayStateComponents;
             _orcEnemyFactory = orcEnemyFactory;
             _mergeUnitFactory = mergeUnitFactory;
             _camera = camera;
             _inputService = inputService;
+            _tutorialGameSubState = tutorialGameSubState;
+            _audioService = audioService;
         }
 
         public void Enter()
         {
-            InitializePlayerUnits();
             InitializeEnemies();
-            InitializeMergeGrid();
+            InitializeMergeGrid(out var mergeGridModel);
+
+            new BackgroundMusicController(_audioService, _gameplayStateComponents);
+            
+            _tutorialGameSubState.Enter(mergeGridModel);
         }
 
-        private void InitializeMergeGrid()
+        private void InitializeMergeGrid(out MergeGridModel mergeGridModel)
         {
-            var mergeCells = _gameplayComponents.MergeGridComponent.CellComponents.Select(cell =>
-                new MergeCellModel(cell.StartUnit != null
-                    ? new MergeUnitModel(
-                        _gameplayComponents.MergeGridComponent.GridConfig.GetMergeUnitId(cell.StartUnit),
-                        cell.StartUnit)
-                    : null, cell)).ToArray();
+            var mergeCells = _gameplayStateComponents.MergeGridComponent.CellComponents.Select(cell =>
+                new MergeCellModel(
+                    _mergeUnitFactory.GetMergeUnitModel(cell.StartUnitPrefab, cell.PositionTransform.position),
+                    cell)).ToArray();
 
-            var mergeGridModel = new MergeGridModel(mergeCells, _mergeUnitFactory.GetUpgradedMergeUnitModel);
+            mergeGridModel = new MergeGridModel(mergeCells, _mergeUnitFactory.GetUpgradedMergeUnitModel);
 
-            _gameplayComponents.DragAndDropMergeGridComponent.Construct(_camera, mergeGridModel, CanMoveOrMerge, _inputService);
+            _gameplayStateComponents.DragAndDropMergeGridComponent.Construct(_camera, mergeGridModel, CanMoveOrMerge,
+                _inputService);
+
+            new MergeGridSoundsController(_gameplayStateComponents.DragAndDropMergeGridComponent.Controller,
+                mergeGridModel, _audioService);
         }
 
         private bool CanMoveOrMerge()
         {
-            return _gameplayComponents.OrcEnemyComponents.All(component => component.OrcEnemyLogicComponent.MovementComponent.Model == null ||
-                                                                           !component.OrcEnemyLogicComponent.MovementComponent.Model.DoesEndPath());
-        }
-
-        private void InitializePlayerUnits()
-        {
-            foreach (var component in _gameplayComponents.PlayerArcherComponents)
-            {
-                _playerArcherFactory.InitializePlayerArcherInstance(component);
-            }
+            return _tutorialGameSubState.CanMerge && _gameplayStateComponents.OrcEnemyComponents.All(component =>
+                component.OrcEnemyLogicComponent.MovementComponent.Model == null ||
+                !component.OrcEnemyLogicComponent.MovementComponent.Model.DoesEndPath());
         }
 
         private void InitializeEnemies()
         {
-            foreach (var component in _gameplayComponents.OrcEnemyComponents)
+            foreach (var component in _gameplayStateComponents.OrcEnemyComponents)
             {
                 _orcEnemyFactory.InitializeOrcEnemyInstance(component);
             }

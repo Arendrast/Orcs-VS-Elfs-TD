@@ -12,6 +12,11 @@ namespace Modules.SharedModule.Scripts
         {
             _initializationAction = initializationAction;
         }
+
+        public void Deinitialize()
+        {
+            Initialized = false;
+        }
         
         public bool TryInitialize()
         {

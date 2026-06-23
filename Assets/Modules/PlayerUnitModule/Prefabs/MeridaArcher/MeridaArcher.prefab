@@ -32,6 +32,10 @@ PrefabInstance:
       propertyPath: _spawnDelayAfterStartAttack
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 576259523813306608, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
+      propertyPath: <ArcherPrefab>k__BackingField
+      value: 
+      objectReference: {fileID: 7491926482643700458, guid: f297016ffc0d60446912652b5d7afae2, type: 3}
     - target: {fileID: 793945568493296787, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: m_Name
       value: MeridaArcher

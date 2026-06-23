@@ -8,7 +8,7 @@ namespace Modules.PlayerUnitModule.Scripts.Archer
 {
     public class PlayerArcherArrowSpawnerComponent : MonoBehaviour
     {
-        [SerializeField] private ArcherArrowMovementComponent _archerPrefab;
+        [field: SerializeField] public ArcherArrowMovementComponent ArcherPrefab { get; private set; }
         [SerializeField] private AttackComponent _attackComponent;
         [SerializeField] private Transform _spawnPointTransform;
         [SerializeField] private float _spawnDelayAfterStartAttack;
@@ -55,7 +55,7 @@ namespace Modules.PlayerUnitModule.Scripts.Archer
                 
             var flyTime = Mathf.Min(_maxFlyTime, Mathf.Max(sqrDistance, ConstantsHolder.Epsilon) / _distanceDividerForFlyTime);
                 
-            archerArrowMovementController = _playerArcherArrowFactory.GetCreatedArcherArrowMovementController(_archerPrefab,
+            archerArrowMovementController = _playerArcherArrowFactory.GetArcherArrowMovementController(ArcherPrefab,
                 targetData.Value.Transform, flyTime, _spawnPointTransform.position, 
                 OnEndMovement);
             

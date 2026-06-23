@@ -1,0 +1,18 @@
+using Modules.EnemyModule.Scripts.Orc;
+using Modules.PlayerUnitModule.Scripts.Archer.BuyUnit;
+using Modules.PlayerUnitModule.Scripts.Merge;
+using Modules.SharedModule.Scripts.Audio;
+using UnityEngine;
+
+namespace Modules.CoreModule.Scripts.GameStates
+{
+    public class GameplayStateComponents : MonoBehaviour 
+    {
+        [field: SerializeField] public OrcEnemyComponents[] OrcEnemyComponents { get; private set; }
+        [field: SerializeField] public BuyMergeUnitConfig BuyMergeUnitConfig { get; private set; }
+        [field: SerializeField] public MergeGridComponent MergeGridComponent { get; private set; }
+        [field: SerializeField] public DragAndDropMergeGridComponent DragAndDropMergeGridComponent { get; private set; }
+        [field: SerializeField] public TutorialGameSubStateComponents TutorialGameSubStateComponents { get; private set; }
+        [field: SerializeField] public AudioConfig AudioConfig { get; private set; }
+    }
+}

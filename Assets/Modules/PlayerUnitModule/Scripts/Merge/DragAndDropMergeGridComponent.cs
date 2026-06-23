@@ -6,33 +6,34 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
 {
     public class DragAndDropMergeGridComponent : MonoBehaviour
     {
+        public DragAndDropGridController Controller { get; private set; }
+        
         [SerializeField] private DragAndDropGridConfig _config;
         [SerializeField] private MergeGridComponent _mergeGridComponent;
         [SerializeField] private UpgradeUnitVfxComponent _upgradeUnitVfxComponent;
 
-        private DragAndDropGridController _dragAndDropGridController;
 
         private void Update()
         {
-            _dragAndDropGridController.TryMoveSelectedUnit();
+            Controller.TryMoveSelectedUnit();
         }
 
         private void OnEnable()
         {
-            _dragAndDropGridController?.SubscribeToInputService();
+            Controller?.SubscribeToInputService();
         }
 
         private void OnDisable()
         {
-            _dragAndDropGridController?.Dispose();
+            Controller?.Dispose();
         }
 
         public void Construct(Camera camera, MergeGridModel mergeGridModel, Func<bool> canMoveOrMergeFunc,
             IInputService inputService)
         {
-            _dragAndDropGridController = new DragAndDropGridController(camera, _config, mergeGridModel,
+            Controller = new DragAndDropGridController(camera, _config, mergeGridModel,
                 canMoveOrMergeFunc, inputService, _upgradeUnitVfxComponent);
-            _dragAndDropGridController.SubscribeToInputService();
+            Controller.SubscribeToInputService();
         }
     }
 }
