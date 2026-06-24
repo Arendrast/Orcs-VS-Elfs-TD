@@ -12,7 +12,6 @@ using Modules.SharedModule.Scripts.Audio;
 using Modules.SharedModule.Scripts.Currencies;
 using Modules.SharedModule.Scripts.Input;
 using UnityEngine;
-using InputActions = Modules.SharedModule.Scripts.Input.InputActions;
 
 namespace Modules.CoreModule.Scripts
 {
