@@ -21,16 +21,13 @@ namespace Modules.EntityModule.Scripts.Damageable
                 return false;
             }
             
+            gameObject.GetComponent<DisableObserverComponent>().Disabled += Remove;
+            
             Added?.Invoke(gameObject, damageable);
 
             return true;
         }
 
-        private void Remove(GameObject gameObject)
-        {
-            TryRemove(gameObject);
-        }
-        
         public bool TryRemove(GameObject gameObject)
         {
             if (!_damageables.Remove(gameObject, out var damageable))
@@ -38,9 +35,16 @@ namespace Modules.EntityModule.Scripts.Damageable
                 return false;
             }
             
+            gameObject.GetComponent<DisableObserverComponent>().Disabled -= Remove;
+            
             Removed?.Invoke(gameObject, damageable);
 
             return true;
+        }
+
+        private void Remove(GameObject gameObject)
+        {
+            TryRemove(gameObject);
         }
     }
 }

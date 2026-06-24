@@ -41,9 +41,9 @@ namespace Modules.PlayerUnitModule.Scripts.Archer
 
         public void InitializePlayerArcherInstance(PlayerArcherComponents components)
         {
-            _playerDamageablesRepository.TryAdd(components.gameObject, components.LogicComponent.DamageableComponent);
-            
             components.DisableObserverComponent.ClearDisabled();
+            _playerDamageablesRepository.TryAdd(components.gameObject, components.LogicComponent.DamageableComponent);
+
             components.DisableObserverComponent.Disabled += TryRelease;
             
             components.LogicComponent.AttackComponent.Construct(_enemyDamageablesRepository,

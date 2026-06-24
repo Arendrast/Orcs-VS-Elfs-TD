@@ -150,11 +150,7 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
 
         private bool Raycast(out RaycastHit hit, LayerMask layerMask)
         {
-#if UNITY_STANDALONE
-            var mousePosition = Mouse.current.position.ReadValue();
-#else
-            var mousePosition = Touchscreen.current.primaryTouch.position.ReadValue();
-#endif
+            var mousePosition = Pointer.current.position.ReadValue();;
 
             return Physics.Raycast(_camera.ScreenPointToRay(mousePosition),
                 out hit, _config.RaycastMaxDistance, layerMask,

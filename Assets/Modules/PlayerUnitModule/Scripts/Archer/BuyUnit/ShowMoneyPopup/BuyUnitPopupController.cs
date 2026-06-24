@@ -105,12 +105,12 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.ShowMoneyPopup
 
         private void TryBuyUnit()
         {
-            _audioService.TryPlayOneShotForMainAudioSource(AudioId.UnitBuy);
-
             if (!_model.TryBuyUnit(out var mergeCellModel))
             {
                 return;
             }
+            
+            _audioService.TryPlayOneShotForMainAudioSource(AudioId.UnitBuy);
 
             mergeCellModel.TargetUnit = _mergeUnitFactory.GetMergeUnitModel(_buyMergeUnitConfig.SpawnUnitPrefab,
                 mergeCellModel.MergeCellComponent.PositionTransform.position);

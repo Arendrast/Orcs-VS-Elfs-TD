@@ -25,7 +25,7 @@ namespace Modules.PlayerUnitModule.Scripts.Tests
             }
 
             // Assert.
-            Assert.AreEqual(true,
+            Assert.IsTrue(
                 firstCell.TargetUnit == secondCellUnit &&
                 secondCell.TargetUnit == firstCellUnit);
         }
@@ -49,7 +49,7 @@ namespace Modules.PlayerUnitModule.Scripts.Tests
             var secondCellUnit = secondCell.TargetUnit;
 
             // Assert.
-            Assert.AreEqual(true, firstCellUnit == null && secondCellUnit.Id == 1);
+            Assert.IsTrue(firstCellUnit == null && secondCellUnit.Id == 1);
         }
         
         [Test]
@@ -73,7 +73,7 @@ namespace Modules.PlayerUnitModule.Scripts.Tests
             var secondCellUnit = secondCell.TargetUnit;
 
             // Assert.
-            Assert.AreEqual(true, firstCellUnit == null && secondCellUnit == pastFirstCellUnit);
+            Assert.IsTrue(firstCellUnit == null && secondCellUnit == pastFirstCellUnit);
         }
     }
 }

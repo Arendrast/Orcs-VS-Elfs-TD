@@ -30,17 +30,15 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit
 
         public bool TryBuyUnit(out MergeCellModel mergeCellModel)
         {
-            mergeCellModel = null;
-            
-            if (!_currencyRepositoryService.MakeOperationOnCurrencyNumber(CurrentBuyPrice,
-                    CurrencyRepositoryService.SetCurrencyOperation.Decrease))
-            {
-                return false;
-            }
-
             mergeCellModel = _mergeGridModel.Cells.FirstOrDefault(cell => !cell.HasTargetUnit());
 
             if (mergeCellModel == null)
+            {
+                return false;
+            }
+            
+            if (!_currencyRepositoryService.MakeOperationOnCurrencyNumber(CurrentBuyPrice,
+                    CurrencyRepositoryService.SetCurrencyOperation.Decrease))
             {
                 return false;
             }
