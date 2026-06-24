@@ -1,6 +1,5 @@
 ﻿using Modules.EntityModule.Scripts.Damageable;
 using Modules.SharedModule.Scripts.Audio;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Modules.EnemyModule.Scripts.Orc
