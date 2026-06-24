@@ -8,6 +8,12 @@ namespace Modules.EntityModule.Scripts.Damageable
 {
     public class DamageableComponent : MonoBehaviour, IDamageable
     {
+        public event Action Died
+        {
+            add => Model.Died += value;
+            remove => Model.Died -= value;
+        }
+        
         public bool IsDied => Model?.IsDied ?? false;
         public Initializer Initializer => _initializer ??= new Initializer(TryInitialize);
         public DamageableModel Model { get; private set; }
@@ -16,7 +22,7 @@ namespace Modules.EntityModule.Scripts.Damageable
         
         [SerializeField] private HealthComponent _healthComponent;
         
-        private void Awake()
+        private void OnEnable()
         {
             Initializer.TryInitialize();
         }
@@ -29,6 +35,11 @@ namespace Modules.EntityModule.Scripts.Damageable
         public bool TryTakeDamage(int damage)
         {
             return Model.TryTakeDamage(damage);
+        }
+
+        public void SetIsDamageable(bool value)
+        {
+            Model.SetIsDamageable(value);
         }
 
         private void TryInitialize()

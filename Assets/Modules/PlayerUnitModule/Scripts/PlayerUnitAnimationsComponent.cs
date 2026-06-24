@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Modules.EntityModule.Scripts.Animations;
 using Modules.EntityModule.Scripts.Attack;
@@ -17,8 +18,15 @@ namespace Modules.PlayerUnitModule.Scripts
 
         private readonly List<IDisposable> _disposables = new List<IDisposable>();
 
-        private void Start()
+        private void OnEnable()
         {
+            StartCoroutine(SkipFrameAndSubscribe());
+        }
+
+        private IEnumerator SkipFrameAndSubscribe()
+        {
+            yield return null;
+            
             if (_attackComponent != null)
             {
                 _disposables.Add(new EntityAttackAnimationsController(_attackComponent.AttackModel, _animator, _attackSpeedAnimationMultiplier));
@@ -36,6 +44,8 @@ namespace Modules.PlayerUnitModule.Scripts
             {
                 disposable.Dispose();
             }
+            
+            _disposables.Clear();
         }
     }
 }

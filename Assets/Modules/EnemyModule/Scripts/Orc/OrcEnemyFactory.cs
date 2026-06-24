@@ -39,7 +39,10 @@ namespace Modules.EnemyModule.Scripts.Orc
 
             components.OrcEnemyLogicComponent.AttackComponent.Construct(_playerDamageablesRepository,
                 components.OrcEnemyLogicComponent.AttackComponent.CanSkipAttack);
-            _coroutineRunner.StartCoroutine(components.ActivatorAfterDelayComponent.DelayedActivate());
+
+            if (components.ActivatorAfterDelayComponent.enabled)
+                _coroutineRunner.StartCoroutine(components.ActivatorAfterDelayComponent.DelayedActivate());
+            
             components.EntitySoundsComponent.Construct(_audioService);
             components.ToCameraLookerComponent.Construct(_camera);
         }

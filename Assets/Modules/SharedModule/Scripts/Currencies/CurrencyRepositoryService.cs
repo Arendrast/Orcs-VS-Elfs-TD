@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Modules.SharedModule.Scripts
+namespace Modules.SharedModule.Scripts.Currencies
 {
     public class CurrencyRepositoryService
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Modules.PlayerUnitModule.Scripts.Merge;
-using Modules.SharedModule;
-using Modules.SharedModule.Scripts;
+using Modules.SharedModule.Scripts.Currencies;
+using UnityEngine;
 
-namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitPopup
+namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit
 {
     public class BuyUnitModel
     {
@@ -44,6 +44,8 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitPopup
             {
                 return false;
             }
+
+            _boughtUnitsCount++;
 
             if (_boughtUnitsCount == 1)
             {

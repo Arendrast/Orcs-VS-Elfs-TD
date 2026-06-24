@@ -9,7 +9,7 @@ namespace Modules.EntityModule.Scripts.Health
         [SerializeField] private HealthComponent _healthComponent;
         [SerializeField] private Slider _sliderBar;
 
-        private void Start()
+        private void OnEnable()
         {
             _healthComponent.Model.ChangedHealthPoints += UpdateBar;
             UpdateBar(_healthComponent.Model.HealthPoints);

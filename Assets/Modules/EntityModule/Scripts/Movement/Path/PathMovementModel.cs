@@ -28,7 +28,7 @@ namespace Modules.EntityModule.Scripts.Movement.Path
             
             _targetPointIndex++;
 
-            if (_targetPointIndex == _pathComponent.MovementPositionsTransforms.Length)
+            if (DoesEndPath())
             {
                 EndedAllPath?.Invoke();
             }

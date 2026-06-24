@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Modules.SharedModule.Scripts;
 using UnityEngine;
 
 namespace Modules.PlayerUnitModule.Scripts.Merge.MergeUnitTutorialPopup
@@ -20,19 +21,19 @@ namespace Modules.PlayerUnitModule.Scripts.Merge.MergeUnitTutorialPopup
 
         public void Open(MergeUnitComponent firstUnit, MergeUnitComponent secondUnit, Camera camera)
         {
-            TutorialHandTools.StartHandMoveLoopAnimation(_config.HandTransform, camera.WorldToScreenPoint(firstUnit.transform.position),
+            MoveHandTools.StartHandMoveAndRotateLoopAnimation(_config.HandTransform, camera.WorldToScreenPoint(firstUnit.transform.position),
                 camera.WorldToScreenPoint(secondUnit.transform.position), _config.OnFirstUnitHandRotation, _config.OnSecondUnitHandRotation, 
                 _config.MoveAndRotateHandDuration, _tweens);
             
             _popup.SetActive(true);
 
             _config.CanvasGroup.alpha = 0;
-            _config.CanvasGroup.DOFade(1, _config.AppearDisappearDuration);
+            _config.CanvasGroup.DOFade(1, _config.AppearDisappearDuration).SetUpdate(true);
         }
 
         public void Close()
         {
-            _config.CanvasGroup.DOFade(0, _config.AppearDisappearDuration).OnComplete(Deactivate);
+            _config.CanvasGroup.DOFade(0, _config.AppearDisappearDuration).SetUpdate(true).OnComplete(Deactivate);
         }
 
         public void Dispose()

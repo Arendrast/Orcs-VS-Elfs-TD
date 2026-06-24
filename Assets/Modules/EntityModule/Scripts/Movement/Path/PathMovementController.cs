@@ -9,33 +9,28 @@ namespace Modules.EntityModule.Scripts.Movement.Path
     public class PathMovementController
     {
         public TargetPointMovementController PointMovementController { get; }
-        private readonly PathMovementModel _model;
+        public PathMovementModel Model { get; }
         private readonly Transform _transform;
         private readonly PathMovementConfig _pathConfig;
 
         public PathMovementController(PathMovementModel model, Transform transform, PathMovementConfig pathConfig)
         {
-            _model = model;
+            Model = model;
             _transform = transform;
             _pathConfig = pathConfig;
             PointMovementController = new TargetPointMovementController(transform, model.TargetPointMovementModel, OnEndMove);
-
-            if (pathConfig.StartMovementOnAwake)
-            {
-                TryStartMoveToPoints();
-            }
         }
 
         public bool TryStartMoveToPoints() 
             // Я думал над тем, чтобы реализовать движение через character controller или transforms.Translate,
             // но поскольку физики нет, посчитал, что использовать здесь дутвин очень подходит - оптимизированнее и местами даже читабельнее
         {
-            if (_model.TargetPointMovementModel.DoesMove || _model.DoesEndPath())
+            if (Model.TargetPointMovementModel.DoesMove || Model.DoesEndPath())
             {
                 return false;
             }
 
-            var targetPosition = _model.GetTargetPointPosition();
+            var targetPosition = Model.GetTargetPointPosition();
 
             var sqrDistance =
                 (targetPosition - _transform.position)
@@ -43,9 +38,9 @@ namespace Modules.EntityModule.Scripts.Movement.Path
 
             if (sqrDistance < ConstantsHolder.SqrEpsilon)
             {
-                _model.TryIncreaseTargetPointIndex();
+                Model.TryIncreaseTargetPointIndex();
 
-                targetPosition = _model.GetTargetPointPosition();
+                targetPosition = Model.GetTargetPointPosition();
             }
             
             PointMovementController.MoveToPoint(targetPosition, _pathConfig.Speed);
@@ -60,11 +55,11 @@ namespace Modules.EntityModule.Scripts.Movement.Path
 
         private void OnEndMove()
         {
-            _model.TryIncreaseTargetPointIndex();
+            Model.TryIncreaseTargetPointIndex();
 
             if (!TryStartMoveToPoints())
             {
-                _model.TargetPointMovementModel.SetDoesMove(false);
+                Model.TargetPointMovementModel.SetDoesMove(false);
             }
         }
     }

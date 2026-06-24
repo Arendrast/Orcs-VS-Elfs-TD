@@ -105,18 +105,16 @@ namespace Modules.PlayerUnitModule.Scripts.Merge
 
         private void TryMergeOrMoveUnits(InputAction.CallbackContext callbackContext)
         {
-            if (_selectedMergeCellModel == null || !CanMoveOrMerge())
+            if (_selectedMergeCellModel?.TargetUnit == null || !CanMoveOrMerge())
             {
                 return;
             }
             
 
             if (RaycastValidCellComponent(out var raycastHit, out var mergeCellModel) &&
-                _mergeGridModel.TryMergeCells(_selectedMergeCellModel, mergeCellModel, out var didMoveTargetUnit) &&
-                didMoveTargetUnit)
+                _mergeGridModel.TryMergeCells(_selectedMergeCellModel, mergeCellModel, out var didMoveTargetUnit))
             {
                 _selectedMergeCellModel = mergeCellModel;
-                Debug.Log(mergeCellModel.TargetUnit);
             }
             
             var unit = _selectedMergeCellModel.TargetUnit.Component;

@@ -7,6 +7,7 @@ namespace Modules.CoreModule.Scripts.GameStates
     public class TutorialGameSubStateComponents : MonoBehaviour
     {
         [field: SerializeField] public float DelayAfterKillFirstEnemyBeforeShowUI { get; private set; } = 0.5f;
+        [field: SerializeField] public float DelayAfterKillThirdEnemyBeforeShowUI { get; private set; } = 1.2f;
         [field: SerializeField] public BuyUnitTutorialPopupComponent BuyUnitTutorialPopupComponent { get; private set; }
         [field: SerializeField] public MergeUnitTutorialPopupComponent MergeUnitTutorialPopupComponent { get; private set; }
     }

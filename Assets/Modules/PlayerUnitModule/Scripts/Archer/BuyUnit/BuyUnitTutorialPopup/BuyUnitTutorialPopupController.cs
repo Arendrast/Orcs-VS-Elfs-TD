@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitPopup;
+using Modules.PlayerUnitModule.Scripts.Merge;
+using Modules.SharedModule.Scripts;
+using Modules.SharedModule.Scripts.Audio;
 using UnityEngine;
 
 namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitTutorialPopup
@@ -11,10 +14,13 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitTutorialPopup
         public event Action Closed;
 
         private BuyUnitModel _buyUnitModel;
+        private AudioService _audioService;
 
         private readonly BuyUnitTutorialPopupConfig _config;
         private readonly List<Tween> _tweens = new List<Tween>();
         private readonly GameObject _gameObject;
+        private MergeUnitFactory _mergeUnitFactory;
+        private BuyMergeUnitConfig _buyMergeUnitConfig;
 
         public BuyUnitTutorialPopupController(BuyUnitTutorialPopupConfig config, GameObject gameObject)
         {
@@ -22,9 +28,13 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitTutorialPopup
             _gameObject = gameObject;
         }
 
-        public void Open(BuyMergeUnitConfig config, BuyUnitModel buyUnitModel)
+        public void Open(BuyMergeUnitConfig config, BuyUnitModel buyUnitModel, AudioService audioService,
+            MergeUnitFactory mergeUnitFactory, BuyMergeUnitConfig buyMergeUnitConfig)
         {
+            _audioService = audioService;
             _buyUnitModel = buyUnitModel;
+            _mergeUnitFactory = mergeUnitFactory;
+            _buyMergeUnitConfig = buyMergeUnitConfig;
 
             _config.BuyButton.transform.localScale = Vector3.one * _config.BuyButtonMaxScale;
 
@@ -35,7 +45,7 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitTutorialPopup
             StartBuyButtonScaleLoopAnimation();
             StartLightMoveLoopAnimation();
 
-            TutorialHandTools.StartHandMoveLoopAnimation(_config.HandTransform, _config.FirstPointHandPosition,
+            MoveHandTools.StartHandMoveAndRotateLoopAnimation(_config.HandTransform, _config.FirstPointHandPosition,
                 _config.SecondPointHandPosition, _config.FirstPointHandRotation, _config.SecondPointHandRotation,
                 _config.MoveAndRotateHandDuration, _tweens);
 
@@ -67,6 +77,10 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitTutorialPopup
         private void Close()
         {
             _buyUnitModel.TryBuyUnit(out var mergeCellModel);
+            _audioService.TryPlayOneShotForMainAudioSource(AudioId.UnitBuy);
+            
+            mergeCellModel.TargetUnit = _mergeUnitFactory.GetMergeUnitModel(_buyMergeUnitConfig.SpawnUnitPrefab,
+                mergeCellModel.MergeCellComponent.PositionTransform.position);
 
             _config.CanvasGroup.DOFade(0, _config.CanvasGroupDisappearTime).SetUpdate(true).OnComplete(OnClose);
         }

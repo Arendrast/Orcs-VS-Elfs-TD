@@ -20,7 +20,7 @@ namespace Modules.EntityModule.Scripts.Health
 
         private bool _initialized;
         
-        private void Awake()
+        private void OnEnable()
         {
             Initializer.TryInitialize();
         }

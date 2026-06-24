@@ -42,10 +42,21 @@ namespace Modules.PlayerUnitModule.Scripts.Archer
         public void InitializePlayerArcherInstance(PlayerArcherComponents components)
         {
             _playerDamageablesRepository.TryAdd(components.gameObject, components.LogicComponent.DamageableComponent);
+            
+            components.DisableObserverComponent.ClearDisabled();
+            components.DisableObserverComponent.Disabled += TryRelease;
+            
             components.LogicComponent.AttackComponent.Construct(_enemyDamageablesRepository,
                 components.LogicComponent.AttackComponent.CanSkipAttack, subscribeToDoDamage: false);
             components.ArrowSpawnerComponent.Construct(_archerArrowFactory);
             components.EntitySoundsComponent.Construct(_audioService);
+            
+            return;
+
+            void TryRelease(GameObject gameObject)
+            {
+                _pool.TryRelease(components);
+            }
         }
     }
 }

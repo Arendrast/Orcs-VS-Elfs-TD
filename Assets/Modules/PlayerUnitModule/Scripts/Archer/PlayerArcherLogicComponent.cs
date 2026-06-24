@@ -11,8 +11,9 @@ namespace Modules.PlayerUnitModule.Scripts.Archer
         [field: SerializeField] public DamageableComponent DamageableComponent { get; private set; }
         [field: SerializeField] public PlayerArcherAttackComponent AttackComponent { get; private set; }
 
-        private void Start()
+        private void OnEnable()
         {
+            HealthComponent.Initializer.TryInitialize();
             Subscribe();
         }
 

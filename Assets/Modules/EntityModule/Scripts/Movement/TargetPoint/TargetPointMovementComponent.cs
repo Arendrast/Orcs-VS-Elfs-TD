@@ -14,7 +14,7 @@ namespace Modules.EntityModule.Scripts.Movement.TargetPoint
         
         private Initializer _initializer;
         
-        public void Awake()
+        public void OnEnable()
         {
             Initializer.TryInitialize();
         }

@@ -5,7 +5,10 @@
         "EnemyModule",
         "EntityModule",
         "PlayerUnitModule",
-        "SharedModule"
+        "SharedModule",
+        "DOTween.Modules",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -8,6 +8,8 @@ namespace Modules.SharedModule.Scripts
 {
     public class Pool<T> where T : Component
     {
+        private Transform _parent;
+        
         private readonly Action<T> _onGet;
         private readonly Action<T> _onRelease;
         private readonly Action<T> _onDestroy;
@@ -17,12 +19,11 @@ namespace Modules.SharedModule.Scripts
 
         private readonly Dictionary<T, ObjectPool<T>> _poolByPrefab = new Dictionary<T, ObjectPool<T>>();
         private readonly Dictionary<T, T> _prefabByInstance = new Dictionary<T, T>();
-        private readonly Transform _parent;
 
         public Pool(Action<T> onGet, Action<T> onRelease, Action<T> onDestroy,
-            bool createMissingPoolForPrefabOnGet = true, int defaultCapacity = 30, int maxSize = 40)
+            bool createMissingPoolForPrefabOnGet = true, int defaultCapacity = 30, int maxSize = 40, bool createParent = true)
         {
-            _parent = new GameObject($"Pool<{typeof(T).Name}>").transform;
+            _parent = createParent ?  new GameObject($"Pool<{typeof(T).Name}>").transform : null;
             _onGet = onGet;
             _onRelease = onRelease;
             _onDestroy = onDestroy;
@@ -31,8 +32,13 @@ namespace Modules.SharedModule.Scripts
             _maxSize = maxSize;
         }
 
-        public T TryGet(T prefab)
+        public T TryGet(T prefab, Transform parent = null)
         {
+            if (parent != null)
+            {
+                _parent = parent;
+            }
+            
             if (!_poolByPrefab.TryGetValue(prefab, out var pool))
             {
                 if (!_createMissingPoolForPrefabOnGet)

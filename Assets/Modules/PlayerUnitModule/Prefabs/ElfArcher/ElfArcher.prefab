@@ -788,7 +788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 183837079733404563, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: _attacksConfig.<AttacksConfigs>k__BackingField.Array.data[0].<FullAttackTime>k__BackingField
-      value: 2
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 576259523813306608, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: _archerPrefab
@@ -796,7 +796,7 @@ PrefabInstance:
       objectReference: {fileID: 7491926482643700458, guid: 1aa1efbd4b3d35b4884d4ae2873596a7, type: 3}
     - target: {fileID: 576259523813306608, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: _spawnDelayAfterStartAttack
-      value: 1
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 576259523813306608, guid: 21fa4ea314b95264695c31758fa1dc87, type: 3}
       propertyPath: <ArcherPrefab>k__BackingField

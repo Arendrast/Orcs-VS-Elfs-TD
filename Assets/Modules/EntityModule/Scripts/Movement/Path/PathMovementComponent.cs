@@ -17,9 +17,10 @@ namespace Modules.EntityModule.Scripts.Movement.Path
 
         private Initializer _initializer;
         
-        public void Awake()
+        public void OnEnable()
         {
             Initializer.TryInitialize();
+            Controller.TryStartMoveToPoints();
         }
 
         private void OnDisable()

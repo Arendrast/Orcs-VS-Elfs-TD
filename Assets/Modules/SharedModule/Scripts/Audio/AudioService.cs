@@ -7,21 +7,28 @@ namespace Modules.SharedModule.Scripts.Audio
     {
         private readonly AudioConfig _audioConfig;
         private readonly AudioSource _mainAudioSource;
+        private readonly AudioSource _musicAudioSource;
 
-        public AudioService(AudioConfig audioConfig, AudioSource mainAudioSource)
+        public AudioService(AudioConfig audioConfig, AudioSource mainAudioSource, AudioSource musicAudioSource)
         {
             _audioConfig = audioConfig;
             _mainAudioSource = mainAudioSource;
+            _musicAudioSource = musicAudioSource;
         }
 
         public bool TryPlayOneShotForMainAudioSource(AudioId audioId)
         {
-            return TryPlayOneShotForMainAudioSource(audioId, out var audioClip);
+            return TryPlayOneShot(_mainAudioSource, audioId);
         }
         
-        public bool TryPlayOneShotForMainAudioSource(AudioId audioId, out AudioClip audioClip)
+        public void StopBackgroundMusicAudioSource()
         {
-            return TryPlayOneShot(_mainAudioSource, audioId, out audioClip);
+            _musicAudioSource.Stop();
+        }
+        
+        public bool TryPlayOneShotForBackgroundMusicAudioSource(AudioId audioId, out AudioClip audioClip)
+        {
+            return TryPlayOneShot(_musicAudioSource, audioId, out audioClip);
         }
 
         public bool TryPlayOneShot(AudioSource audioSource, AudioId audioId)
@@ -39,8 +46,9 @@ namespace Modules.SharedModule.Scripts.Audio
                 return false;
             }
 
-            audioClip = clips.Clips[Random.Range(0, clips.Clips.Length)];
-            audioSource.PlayOneShot(clips.Clips[Random.Range(0, clips.Clips.Length)]);
+            var audioClipByVolume = clips.Clips[Random.Range(0, clips.Clips.Length)];
+            audioClip = audioClipByVolume.Clip;
+            audioSource.PlayOneShot(audioClipByVolume.Clip, audioClipByVolume.Volume);
             return true;
         }
     }

@@ -10,7 +10,14 @@ namespace Modules.SharedModule.Scripts.Audio
         public class AudioClipsByAudioId
         {
             [field: SerializeField] public AudioId Id { get; private set; }
-            [field: SerializeField] public AudioClip[] Clips { get; private set; }
+            [field: SerializeField] public AudioClipByVolume[] Clips { get; private set; }
+        }
+
+        [Serializable]
+        public class AudioClipByVolume
+        {
+            [field: SerializeField] public AudioClip Clip { get; private set; }
+            [field: SerializeField] [field: Range(0, 1f)] public float Volume { get; private set; } = 1f;
         }
         
         [field: SerializeField] public AudioClipsByAudioId[] ClipsById { get; private set; }

@@ -5,6 +5,8 @@ using Modules.PlayerUnitModule.Scripts.Archer.BuyUnit;
 using Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitPopup;
 using Modules.PlayerUnitModule.Scripts.Merge;
 using Modules.SharedModule.Scripts;
+using Modules.SharedModule.Scripts.Audio;
+using Modules.SharedModule.Scripts.Currencies;
 using UnityEngine;
 
 namespace Modules.CoreModule.Scripts.GameStates
@@ -25,11 +27,13 @@ namespace Modules.CoreModule.Scripts.GameStates
         private readonly CurrencyRepositoryService _currencyRepositoryService;
         private readonly BuyUnitPopupComponent _buyUnitPopupComponent;
         private readonly MergeUnitFactory _mergeUnitFactory;
+        private readonly AudioService _audioService;
 
         public TutorialGameSubState(DamageablesRepository enemyDamageablesRepository,
             TutorialGameSubStateComponents components, BuyMergeUnitConfig buyMergeUnitConfig, Camera camera,
             MonoBehaviour coroutineRunner, TimeScaleRepositoryService timeScaleRepositoryService,
-            CurrencyRepositoryService currencyRepositoryService, BuyUnitPopupComponent buyUnitPopupComponent, MergeUnitFactory mergeUnitFactory)
+            CurrencyRepositoryService currencyRepositoryService, BuyUnitPopupComponent buyUnitPopupComponent,
+            MergeUnitFactory mergeUnitFactory, AudioService audioService)
         {
             _enemyDamageablesRepository = enemyDamageablesRepository;
             _components = components;
@@ -40,6 +44,7 @@ namespace Modules.CoreModule.Scripts.GameStates
             _currencyRepositoryService = currencyRepositoryService;
             _buyUnitPopupComponent = buyUnitPopupComponent;
             _mergeUnitFactory = mergeUnitFactory;
+            _audioService = audioService;
         }
 
         public void Enter(MergeGridModel mergeGridModel)
@@ -51,16 +56,17 @@ namespace Modules.CoreModule.Scripts.GameStates
         private IEnumerator StartEnterCoroutine()
         {
             var firstEnemy = _enemyDamageablesRepository.Damageables.First().Value;
-            
+
             yield return new WaitWhile(() => !firstEnemy.IsDied);
 
             yield return new WaitForSecondsRealtime(_components.DelayAfterKillFirstEnemyBeforeShowUI);
 
             _timeScaleRepositoryService.SetTimeScale(0);
-            
+
             _buyUnitModel = new BuyUnitModel(_buyMergeUnitConfig, _currencyRepositoryService, _mergeGridModel);
 
-            _components.BuyUnitTutorialPopupComponent.BuyUnitTutorialPopupController.Open(_buyMergeUnitConfig, _buyUnitModel);
+            _components.BuyUnitTutorialPopupComponent.BuyUnitTutorialPopupController.Open(_buyMergeUnitConfig,
+                _buyUnitModel, _audioService, _mergeUnitFactory, _buyMergeUnitConfig);
             _components.BuyUnitTutorialPopupComponent.BuyUnitTutorialPopupController.Closed += OnBuyFirstUnitTutorial;
         }
 
@@ -80,6 +86,8 @@ namespace Modules.CoreModule.Scripts.GameStates
 
             yield return new WaitWhile(() => !secondEnemy.IsDied || !thirdEnemy.IsDied);
 
+            yield return new WaitForSecondsRealtime(_components.DelayAfterKillThirdEnemyBeforeShowUI);
+            
             _timeScaleRepositoryService.SetTimeScale(0);
 
             CanMerge = true;
@@ -98,7 +106,8 @@ namespace Modules.CoreModule.Scripts.GameStates
 
             _components.MergeUnitTutorialPopupComponent.PopupController.Close();
 
-            _buyUnitPopupComponent.Construct(_buyUnitModel, _mergeUnitFactory, _buyMergeUnitConfig);
+            _buyUnitPopupComponent.Construct(_buyUnitModel, _mergeUnitFactory, _buyMergeUnitConfig, _audioService,
+                _currencyRepositoryService);
             _timeScaleRepositoryService.SetTimeScale(1);
         }
     }

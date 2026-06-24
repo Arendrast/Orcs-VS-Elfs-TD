@@ -18,7 +18,7 @@ namespace Modules.EnemyModule.Scripts.Orc
         [field: SerializeField] public OrcEnemyAttackComponent AttackComponent { get; private set; }
         [field: SerializeField] public DamageableComponent DamageableComponent { get; private set; }
 
-        private void Start()
+        private void OnEnable()
         {
             Subscribe();
         }

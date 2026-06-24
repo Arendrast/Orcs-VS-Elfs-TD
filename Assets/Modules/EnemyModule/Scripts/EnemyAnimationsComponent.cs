@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Modules.EnemyModule.Scripts.Animations;
 using Modules.EntityModule.Scripts.Animations;
@@ -23,8 +24,15 @@ namespace Modules.EnemyModule.Scripts
 
         private readonly List<IDisposable> _disposables = new List<IDisposable>();
 
-        private void Start()
+        private void OnEnable()
         {
+            StartCoroutine(SkipFrameAndSubscribe());
+        }
+
+        private IEnumerator SkipFrameAndSubscribe()
+        {
+            yield return null;
+            
             if (_targetPointMovementComponent != null)
             {
                 _disposables.Add(new EnemyMovementAnimationsController(_targetPointMovementComponent.Model, _animator, _healthComponent.Model));
@@ -55,6 +63,8 @@ namespace Modules.EnemyModule.Scripts
             {
                 disposable.Dispose();
             }
+            
+            _disposables.Clear();
         }
     }
 }
