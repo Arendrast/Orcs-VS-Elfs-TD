@@ -32,8 +32,8 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitTutorialPopup
         [field: Header("Hand")]         
         [field: SerializeField] public Transform HandTransform { get; private set; }
         [field: SerializeField] public float MoveAndRotateHandDuration { get; private set; }
-        [field: SerializeField] public Vector3 FirstPointHandPosition { get; private set; }
-        [field: SerializeField] public Vector3 SecondPointHandPosition { get; private set; }
+        [field: SerializeField] public Transform FirstPointHandPositionTransform { get; private set; }
+        [field: SerializeField] public Transform SecondPointHandPositionTransform { get; private set; }
         [field: SerializeField] public Vector3 FirstPointHandRotation { get; private set; }
         [field: SerializeField] public Vector3 SecondPointHandRotation { get; private set; }
     }

@@ -45,8 +45,8 @@ namespace Modules.PlayerUnitModule.Scripts.Archer.BuyUnit.BuyUnitTutorialPopup
             StartBuyButtonScaleLoopAnimation();
             StartLightMoveLoopAnimation();
 
-            MoveHandTools.StartHandMoveAndRotateLoopAnimation(_config.HandTransform, _config.FirstPointHandPosition,
-                _config.SecondPointHandPosition, _config.FirstPointHandRotation, _config.SecondPointHandRotation,
+            MoveHandTools.StartHandMoveAndRotateLoopAnimation(_config.HandTransform, _config.FirstPointHandPositionTransform.position,
+                _config.SecondPointHandPositionTransform.position, _config.FirstPointHandRotation, _config.SecondPointHandRotation,
                 _config.MoveAndRotateHandDuration, _tweens);
 
             _config.CanvasGroup.alpha = 0;
