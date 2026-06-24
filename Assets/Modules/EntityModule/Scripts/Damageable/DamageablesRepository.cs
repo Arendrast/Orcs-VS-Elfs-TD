@@ -20,8 +20,6 @@ namespace Modules.EntityModule.Scripts.Damageable
             {
                 return false;
             }
-
-            gameObject.AddComponent<DisableObserverComponent>().Disabled += Remove;
             
             Added?.Invoke(gameObject, damageable);
 
