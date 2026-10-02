@@ -1,10 +1,10 @@
 # Tower Defense Playable
 
-Проект — **Tower Defense playable**, сделанный на **Unity 6000.0.70f1** для *Azur Games* с заданными ассетами (звуки, модели, картинки) + добавил от себя эффект стрел и улучшения юнитов, чтобы было красиво
+The project is a **Tower Defense playable** made with **Unity 6000.0.70f1** for *Azur Games* using the provided assets (sounds, models, images). On top of that, I added an arrow effect and unit upgrades of my own to make it look nice
 
 ---
 
-### Демонстрация
+### Demo
 https://github.com/user-attachments/assets/3026974f-344a-4920-90fb-85ddee6ee0c3
 
 https://github.com/user-attachments/assets/11181a50-ae4d-44e0-8849-525531bfcb64
@@ -13,21 +13,20 @@ https://github.com/user-attachments/assets/d33026c9-2c85-4b96-bd3a-e46b8aa6d87d
 
 ---
 
-### Особенности реализации
-В качестве пожеланий была максимальная производительность, лёгкая расширяемость и компонентный подход. Поэтому я придерживался некоторых особенностей:
+### Implementation details
+The requirements were maximum performance, easy extensibility and a component-based approach. So I followed a few principles:
 
-1. **Минимизировал** количество `GetComponent`
-2. **Старался не использовать Instantiate**, а там где использовал есть самописный пул
-3. **Оптимизировал вес**: не добавлял никаких библиотек, кроме *DoTween*, чтобы был минимальный вес и не было подводных камней библиотек. К тому же проект создан с полного нуля, полная управляемость и минимум неиспользуемого кода!
-4. По архитектуре: использовал связку *MVC + EC (entity component)*, чтобы можно было легко писать тесты (на примере тестов сетки для мёрджа, они находятся в `Assets\Modules\PlayerUnitModule\Scripts\Tests`)
-5. *Отказался от физики вообще*, все мобы управляются легковесным *дутивином*, в игре есть только `Raycast`, чтобы понимать, на какую клетку с лучником нажал игрок
-6. Поставил проект на *URP* пайплайн и включил *SRP Batcher*. Да здравствует оптимизация и современный пайплайн!
-7. Поделил механики на модули, где у каждого есть своя сборка
-8. Реализовал сервисный и фабричный подход для упрощения управляемости (кто спавнит объекты/откуда брать данные)
-9. Реализовал состояния игры, но от стейт-машины отказался, потому что игра маленькая. Сама игра инициализируется через ручной DI и запускается через `Bootstrapper` скрипт
-10. Писал модули с заделом на будущее, абстракции вроде `Entity` и `Unit`, общие компоненты типа `HealthComponent` и `DamageableComponent`. 
-Например система атаки позволяет персонажам бить разными типами атак, если они будут
+1. **Minimized** the number of `GetComponent` calls
+2. **Avoided Instantiate** wherever possible, and where I did use it, there is a custom pool
+3. **Optimized the build size**: I didn't add any libraries except *DoTween*, to keep the size minimal and avoid the pitfalls of third-party libraries. The project is also built completely from scratch, so it is fully under control with a minimum of unused code!
+4. Architecture: I used an *MVC + EC (entity component)* combo so tests are easy to write (see the merge grid tests in `Assets\Modules\PlayerUnitModule\Scripts\Tests`)
+5. *Dropped physics entirely*: all mobs are driven by lightweight *DOTween* tweens, and the only `Raycast` in the game detects which archer cell the player tapped
+6. Switched the project to the *URP* pipeline and enabled the *SRP Batcher*. Long live optimization and a modern pipeline!
+7. Split the mechanics into modules, each with its own assembly
+8. Used a service and factory approach to keep things manageable (who spawns objects, where data comes from)
+9. Implemented game states but skipped a state machine, since the game is small. The game is initialized through manual DI and started by the `Bootstrapper` script
+10. Wrote the modules with the future in mind: abstractions like `Entity` and `Unit`, and shared components like `HealthComponent` and `DamageableComponent`. For example, the attack system lets characters use different attack types once they are added
 
 ---
 
-*Постарался сделать красивую картинку, буду рад любой критике! :)*
+*I tried to make it look good, happy to hear any feedback! :)*
